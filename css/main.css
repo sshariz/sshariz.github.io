@@ -673,6 +673,18 @@ strong {
     color: #fff;
 }
 
+
+#profile-section {
+  padding: 50px;
+	min-height:100vh;
+}
+
+#about-img {
+	height: 450px;
+  margin-left: 520px;
+  margin-right: 100px;
+}
+
 .skills .skillz {
     display: -webkit-box;
     display: -ms-flexbox;
