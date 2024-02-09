@@ -986,6 +986,7 @@ strong {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+    white-space: nowrap;
 }
 
 .nav a {
@@ -1022,6 +1023,30 @@ strong {
     opacity: 1;
     -webkit-transform: translateY(0);
     transform: translateY(0);
+}
+
+ .nav {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 630px) {
+    .nav {
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (max-width: 630px) {
+    .nav {
+        width: 47%;
+        margin-right: 5px;
+        margin-bottom: 25px;
+    }
 }
 
 
