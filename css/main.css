@@ -317,6 +317,7 @@ strong {
     display: inline-block;
     background-color: transparent;
     white-space: nowrap;
+    white-space: pre-line;
 }
 
 .arrow-link:after {
@@ -948,6 +949,7 @@ strong {
 
 .other-projects .project__name {
     margin-bottom: 10px;
+    white-space: pre-line;
 }
 
 .other-projects .project p {
