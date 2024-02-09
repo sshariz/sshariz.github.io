@@ -333,7 +333,7 @@ strong {
     height: 15px;
     display: inline-block;
     vertical-align: middle;
-    padding-top: 6em;
+    padding-top: 10em;
 }
 
 .arrow-link:hover:after {
