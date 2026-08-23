@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW, NOIMAGEAI, NOAI, NOLLM">
+
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sara | Portfolio</title>
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#111;
+      --muted:#666;
+      --bg:#fff;
+      --border:rgba(17,17,17,0.08);
+      --section-pad:80px;
+      --container:1200px;
+      --radius:16px;}
+body{background:var(--bg); color:var(--ink);
+      font-family:'Recursive Sans',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      line-height:1.6; font-weight:200;
+      padding-top:72px;}
+.hero{align-items:center;  margin:0 auto; padding:120px 20px 100px;}
+       /* display:grid; grid-template-columns:1.15fr 1fr; gap:clamp(16px,3vw,40px); max-width:var(--container); */
+      
+.hero h2{font-size: 48px; line-height:1.06; font-weight:200; letter-spacing:-.02em; margin-bottom:16px; max-width:1400px;}
+.highlight{box-shadow:inset 0 -0.5ch 0 rgba(17,17,17,.08)}
+.hero-subtitle{font-size:1.1rem; color:var(--muted); font-weight:200; }
+.work{max-width:1400px; margin:0 auto; padding:0 20px var(--section-pad)}
+.work-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); gap:40px; margin-bottom:20px}
+.work-item{position:relative; aspect-ratio:4/3; background:#fafafa; overflow:hidden; cursor:pointer; transition:transform .4s ease, box-shadow .4s ease; border-radius:12px}
+.work-item:hover{transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,.15)}
+.work-item img{width:100%; height:100%; object-fit:cover; transition:transform .6s ease, filter .6s ease; filter:grayscale(20%)}
+.work-item:hover img{filter:grayscale(100%) brightness(40%); transform:scale(1.05)}
+.work-overlay{position:absolute; inset:0; background:linear-gradient(to bottom, transparent 40%, rgba(0,0,0,.6) 100%); opacity:0; transition:opacity .4s ease}
+.work-item:hover .work-overlay{opacity:1}
+.work-info{position:absolute; inset:auto 0 0 0; padding:24px; color:#fff; transform:translateY(16px); opacity:0; transition:all .4s ease}
+.work-item:hover .work-info{transform:translateY(0); opacity:1}
+.work-category{font-size:.8rem; font-weight:400; opacity:.9; margin-bottom:4px; text-transform:uppercase; letter-spacing:.1em}
+.work-title{font-size:1.2rem; font-weight:400; margin:0}
+.work-grid{display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 40px;
+  margin-bottom: 20px;}
+.section-container{max-width: 1200px; 
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 200px;
+  justify-content: space-between;}
+.section-media{flex:1.05; border-radius:12px; overflow:hidden}
+.section-media img{width:100%; height:100%; object-fit:cover; display:block}
+.section-text{flex: 1;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  max-width: 600px;}
+.section-text h2{font-size:1.8rem; font-weight:300; margin-bottom:12px; letter-spacing:-.01em}
+.section-text p{font-size:1rem; color:var(--muted); text-align: justify}
+.left-bias{padding-left:clamp(20px,8vw,120px); padding-right:10px}
+.right-bias{padding-right:clamp(20px,8vw,120px); padding-left:10px}
+.alt{flex-direction:row-reverse}
+.about-content h2{font-size:1.8rem; font-weight:300; margin-bottom:24px; letter-spacing:-.01em}
+.about-content p{font-size:1rem; color:var(--muted); margin-bottom:20px; font-weight:200; line-height:1.7}
+.approach{margin-top:40px; padding-top:40px; border-top:1px solid var(--border)}
+.approach h3{font-size:1rem; font-weight:400; margin-bottom:16px; color:var(--ink)}
+.approach-list{list-style:none; padding:0}
+.approach-list li{padding:8px 0; font-size:.95rem; color:var(--muted); border-bottom:1px solid rgba(17,17,17,.05)}
+.approach-list li:last-child{border-bottom:none}
+.contact{max-width:var(--container); margin:0 auto; padding:60px 20px 80px; text-align:center;}
+.contact h2{font-size:1.6rem; font-weight:300; margin-bottom:16px; letter-spacing:-.01em}
+.contact p{font-size:1rem; color:var(--muted); margin-bottom:32px; font-weight:200}
+.contact-link{display:inline-block; color:var(--ink); text-decoration:none; font-weight:300; padding:12px 0; position:relative; font-size:1rem}
+.contact-link::after{content:''; position:absolute; bottom:8px; left:0; right:0; height:1px; background:var(--ink); transform:scaleX(.3); transition:transform .3s ease}
+.contact-link:hover::after{transform:scaleX(1)}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    min-width:45px; /* ensure equal width */
+    background:var(--accent); color:#fff; text-decoration:none;
+    padding:12px 22px; border-radius:999px; border:1px solid var(--accent);
+    font-weight:400; transition:opacity .3s ease;}
+.btn:hover{opacity:.9}
+.btn-row{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+.btn.black{background:#111; color:#fff; border-color:#111;}
+
+.see-more-container{text-align:center; margin-top:40px}
+.see-more-btn{display:inline-block; padding:12px 28px; background:var(--ink); color:#fff; border-radius:999px; font-size:1rem; font-weight:400; text-decoration:none; transition:background .3s ease}
+.see-more-btn:hover{background:#333}
+@media (max-width:900px){.work-grid{grid-template-columns:1fr; gap:20px}
+.hero{grid-template-columns:1fr; padding:100px 20px 80px}
+.hero-media{order:-1; width:100%; max-width:520px}
+.section-container{flex-direction:column; padding:48px 20px}
+.alt{flex-direction:column}
+.left-bias,.right-bias{padding-left:20px; padding-right:20px}
+}
+    @media (max-width:600px){.work-item{aspect-ratio:3/2}
+</style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo"><a href="index.html">Sara Sharifzadeh</a></div>
+    <nav>
+      <a href="about.html">About Me</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <h2>
+        Building a bridge between data and the decisions that drive impact.
+      </h2>
+      <p class="hero-subtitle"> 
+        Hi, I’m Sara. I'm a Data Engineer based in Southern California.  I care about building reliable technology and I enjoy exploring new challenges. 
+      </p>
+    </div>
+
+  </section>
+
+  <section class="work">
+    <div class="work-grid">
+
+    <!-- Analytics Pipeline (2)  -->
+    <a class="work-item" href="here_pipe2.html" aria-label="Product Analytics Pipeline">
+      <div class="work-overlay"></div>
+      
+      <img src="images/pipeline2-analytics/f_pipe21.png" alt="Product Analytics Pipeline">
+      <div class="work-info">
+        <div class="work-category"> ELT • configuration-driven • Product analytics  </div>
+        <h3 class="work-title">Multi-Tenant ELT Framework</h3>
+        <p class="work-desc">Built an analytics layer for a product platform while navigating production constraints.</p>
+      </div>
+    </a>
+
+    <!-- Formula Electric -->
+      <a class="work-item" href="feb.html" aria-label="toDo">
+        <div class="work-overlay"></div>
+        <img src="images/feb/holley2.jpg" alt="Formula Electric at Berkeley">
+        <div class="work-info">
+          <div class="work-category">Hands-On Engineering • Team Leadership • 0 → 1</div>
+          <h3 class="work-title">Formula SAE at Berkeley</h3>
+          <p class="work-desc">Co-Led a team of 80+ students in the development of building our 3rd electric race car to compete in Formula SAE 2024.</p>
+        </div>
+      </a>
+
+    <!-- ETL Entity Pipeline (1) ETL -->
+    <a class="work-item" href="here_pipe1.html">
+      <div class="work-overlay"></div>
+      <img src="images/pipeline1-entity/f_pipe_1.png" alt="DE Pipe">
+      <div class="work-info">
+        <div class="work-category">ETL • Data Quality • Automation</div>
+        <h3 class="work-title">Entity Resolution Pipeline</h3>
+        <p class="work-desc">Handles missing identifiers to reconstruct data that was previously unusable.  </p>
+      </div>
+    </a>
+
+      <!-- DE Handbook -->
+      <a class="work-item" href="https://sshariz.github.io/DE-handbook/" target="_blank" aria-label="Roommate Noise Guard">
+        <div class="work-overlay"></div>
+        <img src="images/d_eng/de-handbook.png" alt="Roommate Noise Guard IoT Device">
+        <div class="work-info">
+          <div class="work-category">Comprehensive Technical Reference</div>
+          <h3 class="work-title">Data Engineering Handbook</h3>
+          <p class="work-desc">A living reference documenting the tools, workflows, architecture patterns, and best practices I use across modern data engineering projects.</p>
+        </div>
+      </a>
+
+      <!-- Fashion MNIST -->
+      <a class="work-item" href="FashionMNIST.html" aria-label="Fashion MNIST">
+        <div class="work-overlay"></div>
+        <img src="images/fashion/zaland.png" alt="Fashion Classifier">
+        <div class="work-info">
+          <div class="work-category">Machine Learning • Data Science</div>
+          <h3 class="work-title">ML Image Classifier </h3>
+          <p class="work-desc">Applying Machine Learning to Fashion with an Image Classifier (PCA).</p>
+        </div>
+      </a>
+      <!-- SPAM HAM  -->
+      <a class="work-item" href="SpamEmailLogR.html" aria-label="SpamHam">
+        <div class="work-overlay"></div>
+        <img src="images/spamham/propclass.png" alt="Spam Ham">
+        <div class="work-info">
+          <div class="work-category">Machine Learning • Data Science</div>
+          <h3 class="work-title">NLP Spam Email Binary Classifier </h3>
+          <p class="work-desc">Applying Natural Language Processing (NLP) to distinguish spam emails.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+  
+
+  <!-- Contact FOOTER -->
+<section class="contact">
+  <div class="container">
+    <div class="btn-row" style="margin-top:20px">
+      <a class="btn black" href="https://www.linkedin.com/in/ssarazadeh/" target="_blank">
+        <i class="fa-brands fa-linkedin"></i> LinkedIn
+      </a>
+      <a class="btn black" href="https://github.com/sshariz" target="_blank">
+        <i class="fa-brands fa-github"></i> Github
+      </a>
+    </div>
+  </div>
+</section>
+
+
+  <script>
+    // Fade-ups (kept if you later add .fade-up)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Header elevation
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      const y = window.pageYOffset || document.documentElement.scrollTop;
+      header.style.boxShadow = y > 96 ? '0 2px 18px rgba(17,17,17,0.08)' : 'none';
+      header.style.background = y > 96 ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.75)';
+    });
+  </script>
+</body>
+
+</html>

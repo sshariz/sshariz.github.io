@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW, NOIMAGEAI, NOAI, NOLLM">
+    
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sara | About Me</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <style>
+*{margin: 0; padding: 0; box-sizing: border-box;}
+body{background: #ffffff;
+      color: #111;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      padding-top: 80px;}
+:root{--ink:#111;
+      --muted:#666;
+      --border:rgba(17,17,17,0.10);
+      --section-pad:80px;
+      --grid-gap:32px;}
+.container{max-width:1120px; margin:0 auto; padding:0 20px}
+/* h1{font-size:clamp(2.75rem,7vw,4rem); line-height:1.1; font-weight:400; letter-spacing:-0.02em; color:var(--ink); margin-bottom:24px} */
+h2{font-size:1.5rem; font-weight:400; color:var(--ink); margin-bottom:24px}
+h1{font-size: 48px; line-height:1.06; font-weight:200; letter-spacing:-.02em; margin-bottom:16px; max-width:1400px;}
+h3{font-size:1.125rem; font-weight:400; color:var(--ink); margin-bottom:12px}
+p{font-size:1rem; font-weight:200; color:var(--muted); margin-bottom:16px; max-width:68ch}
+.hero{padding:var(--section-pad) 0;}
+.hero .container{display:grid;
+      grid-template-columns: 1fr 400px;
+      gap:60px;
+      align-items:center;}
+.hero-content h1{margin-bottom:20px}
+.hero-intro{font-size:1.1rem; line-height:1.6; font-weight:200; color:var(--muted); margin-bottom:0}
+.hero-image{justify-self:end;
+      position:relative;}
+.hero-image img{width:100%; max-width:350px; height:400px;
+      object-fit:cover; border-radius:20px;}
+.floating-detail{position:absolute; background:var(--ink); color:white;
+      padding:8px 12px; border-radius:8px;
+      font-size:0.85rem; font-weight:400;
+      box-shadow:0 8px 16px rgba(0,0,0,.08);}
+.detail-1{top:20px; left:-20px; transform:rotate(-2deg)}
+.detail-2{bottom:40px; right:-30px; transform:rotate(1deg)}
+.detail-3{top:120px; right:-40px; transform:rotate(-1deg)}
+.story{
+  padding:var(--section-pad) 0; 
+  background:rgba(45, 143, 255, 0.02);
+  align-items:center;
+  justify-content: center;
+}
+/* .story-grid{display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+      align-items:start;} */
+
+.story p{margin-bottom:20px;  align-items:center; justify-content: center;}
+
+.story-highlights{display:grid; gap:20px;}
+.highlight-card{background:white;
+      border:1px solid var(--border);
+      padding:24px;
+      border-radius:12px;}
+.highlight-card h3{color:var(--ink); margin-bottom:8px}
+.highlight-card p{color:var(--muted); margin:0; max-width:none}
+.skills{padding:var(--section-pad) 0}
+.skills-grid{display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:40px;
+      margin-top:40px;}
+.skill-category{text-align:center;}
+.skill-category h3{font-size:1rem; text-transform:uppercase; letter-spacing:0.1em;
+      font-weight:400; color:var(--ink); margin-bottom:20px;}
+.skill-list{display:flex; flex-direction:column; gap:8px;}
+.skill-item{font-size:0.9rem; font-weight:200; color:var(--muted); padding:6px 0;}
+.values{padding:var(--section-pad) 0; background:var(--ink); color:white;}
+.values h2{color:#e8e8e8; text-align:center}
+.values-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:30px; margin-top:40px;}
+.value-card{background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.14);
+      padding:28px; border-radius:12px; text-align:center;}
+.value-icon{width:60px; height:60px; background:rgba(255,255,255,0.1);
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      margin:0 auto 16px; font-size:1.5rem;}
+.value-card h3{color:white; margin-bottom:12px}
+.value-card p{color:#d8d8d8; margin:0; max-width:none; text-align:center}
+.fun-facts{padding:var(--section-pad) 0}
+.facts-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:24px; margin-top:40px;}
+.fact-card{background:white; border:1px solid var(--border);
+      padding:20px; border-radius:12px; text-align:center;}
+.fact-emoji{font-size:2rem; margin-bottom:12px; display:block;}
+.fact-card p{margin:0; font-size:0.9rem; color:var(--muted); max-width:none;}
+.cta{padding:var(--section-pad) 0; text-align:center; border-top:1px solid var(--border);}
+.cta h2{margin-bottom:16px}
+.cta p{margin:0 auto 32px; text-align:center}
+.btn{display:inline-block; background:var(--ink); color:white;
+      padding:12px 24px; border-radius:999px; text-decoration:none;
+      font-weight:400; transition:opacity 0.3s ease;}
+.btn:hover{opacity:0.9}
+.fade-in{opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease;}
+.fade-in.visible{opacity:1; transform:translateY(0);}
+.slide-left{opacity:0; transform:translateX(-30px); transition:opacity 0.6s ease, transform 0.6s ease;}
+.slide-left.visible{opacity:1; transform:translateX(0);}
+.slide-right{opacity:0; transform:translateX(30px); transition:opacity 0.6s ease, transform 0.6s ease;}
+.slide-right.visible{opacity:1; transform:translateX(0);}
+@media (max-width:900px){.hero .container{ grid-template-columns:1fr; gap:40px; text-align:center;}
+.hero-image{justify-self:center}
+.story-grid{grid-template-columns:1fr; gap:40px;}
+.skills-grid{grid-template-columns:1fr; gap:30px;}
+.floating-detail{position:static; transform:none; margin:8px 4px; display:inline-block}
+}
+    @media (max-width:600px){.facts-grid{grid-template-columns:1fr}
+.values-grid{grid-template-columns:1fr}
+}
+
+    .gallery-grid{display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;}
+.gallery-item{background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 1 / 1; 
+  position: relative;}
+.gallery-item img{position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  border-radius: 0;}
+@media (max-width: 900px){.gallery-grid {
+    grid-template-columns: 1fr;}
+.gallery-item img{height: auto;}
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo"><a href="index.html">Sara Sharifzadeh</a></div>
+    <nav>
+      <a href="about.html">About Me</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content fade-in">
+        <h1>Building reliable data products for better insights.</h1>
+        <p class="hero-intro">
+            Hi, I’m Sara. I'm a Data Engineer based in Southern California. 
+            I care about building reliable technology and I enjoy exploring new challenges. 
+            I’m detail-oriented because I value a comprehensive understanding of the problems Im solving, but my experience with fast-paced environments have made me well adjusted to producing solutions with agility. 
+        </p>
+        <br>
+      </div>
+      <div class="hero-image slide-right">
+        <img src="images/me.png" alt="Sara Portrait" oncontextmenu="return false;" ondragstart="return false;">
+        <div class="floating-detail detail-1">Cali-Based</div>
+        <div class="floating-detail detail-2">Berkeley Alum 🐻</div>
+        <div class="floating-detail detail-3">Data Engineer</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Story -->
+  <section class="story">
+    <div class="container">
+      <div>
+        <div>
+          <h2>My Journey</h2>
+          <p>
+            I’ve been working with data for over 6 years now across a few disciplines: Data Science and Visualization, Data Analysis, Analytics Engineering, and Data Engineering. This started in 2019 when I won a scholarship for a coding program that aimed to make tech more inclusive in youth.
+          </p>
+          <p>
+            From there I attended UC Berkeley, where I double majored in both Data Science & Business Administration. I was driven to pursue simultaneous degrees because I wanted to develop the analytical mindset that would allow me to understand and solve complex technical problems, while having the business perspective to know why those solutions matter. 
+          </p>
+          <p>I currently work at an Enterprise Software Platform based in NYC with presence in London and Hong Kong. </p>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Skills -->
+  <section class="skills">
+    <div class="container">
+      <h2 class="fade-in" style="text-align:center">Skills & Expertise</h2>
+      <div class="skills-grid">
+        <div class="skill-category fade-in">
+          <h3>Languages & Libraries</h3>
+          <div class="skill-list">
+            <div class="skill-item">Python (pandas, NumPy, Requests)</div>
+            <div class="skill-item">SQL (PostgreSQL)</div>
+            <div class="skill-item">GraphQL</div>
+            <div class="skill-item">Plotly, matplotlib, seaborn</div>
+            <div class="skill-item">scikit-learn, tensorflow</div>
+            <div class="skill-item"></div>
+          </div>
+        </div>
+        <div class="skill-category fade-in">
+          <h3>Engineering</h3>
+          <div class="skill-list">
+            <div class="skill-item">Data Pipelines & ETL Frameworks</div>
+            <div class="skill-item">Data Modeling</div>
+            <div class="skill-item">Data Storage & Warehousing</div>
+            <div class="skill-item">Business Intelligence & Product Analytics</div>
+            <div class="skill-item">Data Science & Visualization</div>
+            <div class="skill-item">Cross-Functional Teams</div>
+          </div>
+        </div>
+
+        <div class="skill-category fade-in">
+          <h3>Tools</h3>
+          <div class="skill-list">
+            <div class="skill-item">Apache Airflow, Postman</div>
+            <div class="skill-item">dbt (dbt-core)</div>
+            <div class="skill-item">Amazon S3, DuckDB, SQLite, Parquet </div>
+            <div class="skill-item">Tableau, PowerBI</div>
+            <div class="skill-item">Jupyter Notebook</div>
+            <div class="skill-item">Git, Jira, Confluence</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+   <!-- Fun Facts -->
+  <section class="fun-facts">
+    <div class="container">
+      <h2 class="fade-in" style="text-align:center">My Hobbies</h2>
+      <div class="facts-grid">
+        <div class="fact-card fade-in">
+          <span class="fact-emoji">🥾°.🍃.⛰️⋆☁️</span>
+          <p>Hiking</p>
+        </div>
+        <div class="fact-card fade-in">
+          <span class="fact-emoji">🍳⋆🍱˚.🍲˖°🥘</span>
+          <p>Cooking</p>
+        </div>
+        <div class="fact-card fade-in">
+          <span class="fact-emoji">˖°.☕️.ೃ࿔📚:･</span> 
+          <p>Reading</p>
+        </div>
+        <div class="fact-card fade-in">
+          <span class="fact-emoji">📽️₊˚☾⋆⁺🎬✧🎭</span> 
+          <p>Film</p>
+        </div>
+      </div>
+    </div>
+  </section> 
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div class="container">
+      <a href="contact.html" class="btn fade-in">Contact Me</a>
+    </div>
+  </section>
+
+  <script>
+    // Reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { 
+        if(e.isIntersecting) e.target.classList.add('visible'); 
+      });
+    }, {threshold: 0.1, rootMargin: '0px 0px -60px 0px'});
+    
+    document.querySelectorAll('.fade-in, .slide-left, .slide-right').forEach(el => observer.observe(el));
+
+    // Header elevation
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      const y = window.pageYOffset || document.documentElement.scrollTop;
+      header.style.boxShadow = y > 96 ? '0 2px 18px rgba(17,17,17,0.08)' : 'none';
+      header.style.background = y > 96 ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.75)';
+    });
+
+    // Stagger animations for cards
+    const cardGroups = [
+      document.querySelectorAll('.story-highlights .highlight-card'),
+      document.querySelectorAll('.skill-category'),
+      document.querySelectorAll('.value-card'),
+      document.querySelectorAll('.fact-card')
+    ];
+
+    cardGroups.forEach(cards => {
+      const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, idx) => {
+          if(entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), idx * 100);
+          }
+        });
+      }, {threshold: 0.3});
+      
+      cards.forEach(card => cardObserver.observe(card));
+    });
+  </script>
+</body>
+</html>

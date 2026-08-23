@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW, NOIMAGEAI, NOAI, NOLLM">
+    
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sara | Formula Electric at Berkeley</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400&display=swap" rel="stylesheet">
+  <style>
+:root{--bg:#ffffff;
+  --ink:#111111;
+  --muted:#606060;
+  --accent:#111111;
+  --border: rgba(17,17,17,0.10);
+  --elev: rgba(17,17,17,0.04);
+  --radius: 10px;
+  --container:1120px;
+  --section-pad: 80px;
+  --space-md:16px;}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-size:1rem; line-height:1.6; font-weight:200; letter-spacing:-0.005em;
+  padding-top:72px; -webkit-font-smoothing:antialiased;}
+h1,h2,h3{margin:0; font-weight:400; letter-spacing:-0.02em; color:var(--ink)}
+h1{font-size:clamp(2.25rem,6vw,3rem); line-height:1.1; margin-bottom:24px}
+h2{font-size:1.5rem; margin-bottom:40px}
+h3{font-size:1.125rem; margin-bottom:12px}
+p{margin:0 0 var(--space-md); color:var(--muted); font-size:1rem}
+.container{max-width:var(--container); margin:0 auto; padding:0 20px}
+.hero{padding:var(--section-pad) 0; text-align:center}
+.project-tag{display:inline-block; margin-bottom:25px; font-size:0.85rem; color:var(--muted);
+  background:transparent; border:1px solid var(--border);
+  padding:6px 12px; border-radius:999px; font-weight:200}
+.hero-subtitle{font-size:1rem; color:var(--muted); margin-top:20px; 
+  max-width:68ch; margin-left:auto; margin-right:auto;}
+.section{padding:var(--section-pad) 0}
+.section-title{text-align:center; margin-bottom:40px}
+.two-col{display:grid; grid-template-columns:2fr 1fr; gap:48px; align-items:start}
+.grid{display:grid; gap:24px; margin-top:40px}
+.grid-2{grid-template-columns:1fr 1fr}
+.grid-3{grid-template-columns:1fr 1fr 1fr}
+.card{background:var(--bg); border:1px solid var(--border); 
+  padding:24px; border-radius:var(--radius);}
+.card h3{color:var(--ink); margin-bottom:8px}
+.card p{color:var(--muted); margin:0}
+.gallery{display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:20px;
+  margin-top:20px;}
+.gallery img{width:100%; aspect-ratio: 4/3; object-fit:cover; display:block; 
+  border-radius:var(--radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+  transition: transform .3s ease, box-shadow .3s ease;}
+.gallery img:hover{transform:translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);}
+@media (max-width:900px){.gallery{ grid-template-columns: repeat(2, 1fr);}
+}
+@media (max-width:600px){.gallery{ grid-template-columns: 1fr;}
+}
+
+.full-width-image{margin:40px 0}
+.image{display:block; width:100%; border-radius:var(--radius)}
+.drawings-stack{display: block;
+  margin-top: 40px;}
+.drawings-stack img{display: block;
+  width: 100%;
+  height: auto;          
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+  margin-bottom: 20px;}
+.business-card{background:var(--bg); border:1px solid var(--border);
+  padding:32px; border-radius:var(--radius); margin:40px 0; width: 675px;}
+.business-card h3{color:var(--ink); margin-bottom:16px; font-size:1.25rem;}
+.business-card img{width: 600px;}
+.text-block{max-width:75ch; margin-left:auto; margin-right:auto}
+.learnings{background:var(--ink); color:#fff; padding:var(--section-pad) 0}
+.learnings .section-title{color:#e8e8e8}
+.learnings .card{background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.14);}
+.learnings .card h3{color:#ffffff}
+.learnings .card p{color:#d8d8d8}
+.fade-in{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease}
+.fade-in.visible{opacity:1; transform:translateY(0)}
+.slide-left{opacity:0; transform:translateX(-28px); transition:opacity .6s ease, transform .6s ease}
+.slide-left.visible{opacity:1; transform:translateX(0)}
+.slide-right{opacity:0; transform:translateX(28px); transition:opacity .6s ease, transform .6s ease}
+.slide-right.visible{opacity:1; transform:translateX(0)}
+@media (max-width:900px){.two-col{grid-template-columns:1fr; gap:24px}
+.drawings-grid{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){.fade-in,.slide-left,.slide-right{transition:none; transform:none; opacity:1}
+html{scroll-behavior:auto}
+</style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo"><a href="index.html">Sara Sharifzadeh</a></div>
+    <nav>
+      <a href="about.html">About Me</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <span class="project-tag">Hands-On Engineering · Cross-Functional Team Leadership</span>
+      <h1>Formula SAE Business Lead</h1>
+      <p class="hero-subtitle">
+        <strong>Formula Electric at Berkeley</strong> <a href="https://ev.studentorg.berkeley.edu" target="_blank">(FEB)</a> is an organization of the Society of Automotive Engineers & 501c3 non-profit that competes in  <a href="https://www.sae.org/events/student/about/formula" target="_blank">Formula SAE</a> - an annual collegiate competition in which student teams from all around the world design, build, and race formula-style race cars.
+        <br></br>
+        As a Business Lead, I Co-Directed 80+ students alongside FEB's Autonomous, Mechanical, & Electrical Engineering Leads in the development of our 3rd electric race car.
+      </p>
+    </div>
+  </section>
+
+  <!-- Problem Statement -->
+  <section class="section">
+    <div class="container">
+      <div class="two-col">
+        <div class="slide-left">
+          <h2>Problem Statement</h2>
+          <p>The estimated cost to compete & build an FSAE electric vehicle from scratch is around <strong>$75,000</strong> to  <strong>$115,000</strong>. This budget comprises the Electronics, LV systems, Accumulator (Battery Pack), Powertrain, Chassis, Aerodynamics, & Logistical costs to get to Michigan.
+          <br></br>
+          FEB depends on crucial support from our sponsors. Funding to buy materials, in-kind donations (parts, services, facility access), and intellectual collaboration from our mentors all drive our success in competition.
+          </p>
+        </div>
+        <div class="slide-right">
+          <img 
+            src="images/feb/pms.jpg"
+            alt="pms"
+            class="image"
+            loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Motivation -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title fade-in">Our Purpose - Formula Electric at Berkeley</h2>
+      <div class="grid grid-3">
+        <div class="card fade-in">
+          <h3>Develop Sustainable Technology</h3>
+          <p>We research, design, manufacture, and test efficient, sustainable transportation technology
+           at UC Berkeley. Our vehicle is 100% electric. </p>
+        </div>
+        <div class="card fade-in">
+          <h3>Hands-On Engineering</h3>
+          <p>Hands-on experience in the innovation of electric vehicle technology, including battery systems, electric drivetrains, and vehicle dynamics.</p>
+        </div>
+        <div class="card fade-in">
+          <h3>Come Together as a Team</h3>
+          <p>Create a diverse community of over 80+ students from more than 20 majors that focuses on project management, skill development, and teamwork.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vehicle Image Gallery -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title fade-in">Vehicle Development</h2>
+      <div class="gallery">
+        <img src="images/feb/design.png" alt="sketch" class="fade-in" loading="lazy" decoding="async">
+        <img src="images/feb/sn2.png" alt="sn2" class="fade-in" loading="lazy" decoding="async">
+        <img src="images/feb/comp.jpg" alt="comp" class="fade-in" loading="lazy" decoding="async">
+      </div>      
+    </div>
+  </section>
+
+  <!-- Manufacturing Process -->
+  <section class="section">
+    <div class="container">
+      <div class="two-col">
+        <div class="slide-left">
+          <h2>Impact</h2>
+          <div class="business-card">
+            <h3>Leading Business & Operations</h3>
+            <p>My Team of 13 members came together in sponsor outreach, marketing, budgeting, & fundraising to raise over <strong>$128K in sponsorships.</strong>
+            Together we navigated event-planning, contract developmnet, & full-fledged content strategy campaigns. 
+            </p>
+          </div>
+          <div class="business-card">
+            <h3>Most Exciting Moments</h3>
+            <p>
+            <ul>
+                <li> Partnered On-Campus event with <strong>Rivian Automotive</strong> for our official car reveal</li>
+                <li><strong>Boeing</strong> invited us to their wind tunnel in Seattle for Aerodynamic Testing</li>
+            </ul>
+            </p>
+          </div>
+          <div class="business-card">
+            <h3>Building Meaningful Partnerships</h3>
+            <p>Our value to sponsors lies in forging a connection with a team of resilient students with a highly applicable skillset, all coming together for the research and advancement of sustainable technology.</p>
+             <img src="images/feb/logos.png" >
+          </div>
+        </div>
+        <div class="slide-right">
+          <h2>Sponsorships & Outreach</h2>
+            <div class="drawings-grid">
+              <div class="drawing-item">
+                <div class="drawing-caption"> <a href="https://www.linkedin.com/posts/formulaelectricberkeley_formula-electric-at-berkeley-and-rivians-activity-7126599039294345219-5mzL?utm_source=share&utm_medium=member_desktop" target="_blank">Rivian On-Campus Event</a></div>
+                <img src="images/feb/riv.png"  style="width: 400px; height: auto;" >
+                
+              </div>
+              <div class="drawing-item fade-in">
+                <br>
+                 <div class="drawing-caption"><a href="https://www.linkedin.com/posts/haastmc_this-past-week-formula-electric-at-berkeley-activity-7120236144541274112-SoW3?utm_source=share&utm_medium=member_desktop" target="_blank">Haas Transportation & Mobility Club</a></div>
+                <img src="images/feb/htm.png" style="width: 400px; height: auto;">
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Project Impact -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title fade-in">Project Impact & Reflection</h2>
+      <div class="text-block fade-in">
+        <p>Being a part of Formula Electric at Berkeley was one of my most exciting life experiences and it remains a foundational part of my personal and professional journey. I am so grateful I had the chance to be surrounded by the most intelligent and resilient students who continue to amaze me beyond our time together.</p>
+        </br>
+        <p><strong>Technical Experience:</strong> Gained hands-on experience with a full-fledged professional product development cycle 0 → 1. From design reviews to manufacturing, to the transition of assembly & testing. All under strict budgets, timelines, and regulatory constraints.</p>
+        
+        <p><strong>Teamwork & Community:</strong> Worked with a highly diverse set of students, all specializing in unique talents: electrical, mechanical, & autonomous engineering. We learned how to balance our needs and strengths to come together for a single goal.</p>
+        
+        
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // reveal on scroll
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+    },{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+    document.querySelectorAll('.fade-in,.slide-left,.slide-right').forEach(el=>observer.observe(el));
+
+    // header elevation
+    const header=document.querySelector('header');
+    addEventListener('scroll',()=>{
+      const y=window.pageYOffset||document.documentElement.scrollTop;
+      header.style.boxShadow = y>96?'0 2px 18px rgba(17,17,17,0.08)':'none';
+      hdr.style.background = y > 96? 'rgba(255,255,255,0.90)': 'rgba(255,255,255,0.75)';
+    });
+  </script>
+</body>
+</html>

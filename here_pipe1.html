@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW, NOIMAGEAI, NOAI, NOLLM">
+    
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sara | Entity Pipeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400&display=swap" rel="stylesheet">
+  <style>
+/* ============== Design tokens (max 4 colors) ============== */
+:root{--bg:#ffffff;           /* background */
+  --ink:#111111;          /* primary text */
+  --muted:#606060;        /* secondary text */
+  --accent:#111111;       /* accent (monochrome) */
+
+  --border: rgba(17,17,17,0.10);   
+  --elev: rgba(17,17,17,0.04);     
+
+  --radius: 10px;         /* unified radius */
+  --container:1120px;
+
+  --section-pad: 80px;    /* balanced section spacing */
+  --space-md:16px;}
+*{box-sizing:border-box; box-shadow:none !important}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-size:1rem; line-height:1.6; font-weight:200; letter-spacing:-0.005em;
+  padding-top:72px; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+/* ===== Typography (4 sizes, 2 weights: 200 & 400) ===== */
+h1,h2,h3{margin:0 0 var(--space-md); font-weight:400; letter-spacing:-0.02em; color:var(--ink)}
+h1{font-size:clamp(2.25rem,6vw,3rem); line-height:1.1}
+h2{font-size:0.95rem; text-transform:uppercase; letter-spacing:0.12em}
+h3{font-size:1.125rem}
+ul { color: #606060; }
+p{margin:0 0 var(--space-md); color:var(--muted); font-size:1rem}
+
+.measure{max-width:89ch; margin-left:auto; margin-right:auto}
+.container{max-width:var(--container); margin:0 auto; padding:0 20px}
+.back-link{margin-left:auto; text-decoration:none; color:var(--muted); font-size:0.95rem; font-weight:200; position:relative}
+.back-link:hover{color:var(--ink)}
+.back-link::after{content:""; position:absolute; left:0; bottom:-4px; height:1px; width:0; background:var(--ink); transition:width .25s ease}
+.back-link:hover::after{width:100%}
+/* ===== Hero ===== */
+.hero{padding:var(--section-pad) 0; border-bottom:none; text-align:center}
+.project-tag{display:inline-block; margin-bottom:25px; font-size:0.85rem; color:var(--muted);
+  background:transparent; border:1px solid var(--border);
+  padding:6px 12px; border-radius:999px; font-weight:200}
+.hero-subtitle{font-size:1rem; color:var(--muted);
+  margin-top:20px; max-width:115ch; text-align:center; margin-left:auto; margin-right:auto;}
+  .image{display:block; width:100%; height:auto; border-radius:var(--radius)}
+/* ===== Sections ===== */
+.section{padding:var(--section-pad) 0}
+.section-title{text-align:center; margin-bottom:var(--space-md)}
+/* ===== Grids ===== */
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:start}
+/* ===== Problem ===== */
+.problem .highlight{background:transparent; border:1px solid var(--border);
+  padding:16px; border-radius:var(--radius); margin:var(--space-md) 0; color:var(--muted)}
+
+  /* ===== Architecture-Section ===== */
+/* Layout wrapper limited strictly to the architecture section */
+.architecture-section .center-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px; 
+  width: 100%;
+}
+
+/* ============================================================
+   3. ISOLATE & FORCE STYLES FOR THE NESTED DROP-DOWN (.og-snippet)
+   ============================================================ */
+
+/* Re-apply the universal paragraph structure & baseline typography */
+.architecture-section .snippet details.og-snippet {
+  display: block !important;
+  margin: var(--space-md) 0 var(--space-md) 40px !important; /* Indents slightly to sit cleanly under text */
+  padding: 0 !important;
+  width: auto !important;
+  border: none !important;
+}
+
+/* Bring back the native system triangle marker */
+.architecture-section .snippet details.og-snippet summary {
+  display: list-item !important; /* Restores the standard list item behavior */
+  list-style-type: disclosure-closed !important; /* Forces the default triangle back */
+  list-style-position: inside !important;
+  font-weight: 400 !important;
+  font-size: 1rem !important;
+  color: var(--muted) !important; /* Matches problem section color token */
+  cursor: pointer;
+  gap: 0 !important;
+}
+
+/* Update the marker type when open */
+.architecture-section .snippet details.og-snippet[open] > summary {
+  list-style-type: disclosure-open !important;
+}
+
+/* Completely strip out parent architecture snippet styles from inner p tags */
+.architecture-section .snippet .og-snippet p {
+  padding-left: 0 !important; 
+  padding-top: 4px !important;
+  margin: 0 0 var(--space-md) 0 !important; /* Re-applies the exact token style */
+  color: var(--muted) !important;
+  font-size: 1rem !important;
+  font-weight: 200 !important;
+  line-height: 1.6 !important;
+}
+
+
+/* Dropdown containers - FIX: added overflow hidden to prevent content peeking */
+.architecture-section .snippet {
+  width: 100%;
+  max-width: 650px; 
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0; 
+  padding-bottom: 16px;
+  overflow: hidden; /* Clears margin collapse and hides rogue inner margins */
+}
+
+/* Summary headers limited strictly to the architecture section */
+.architecture-section .snippet > summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500; 
+  font-size: 1.05rem;
+  color: #1e293b; 
+  cursor: pointer;
+  list-style: none; 
+  position: relative; /* Keeps header strictly on top layer */
+  z-index: 2;
+}
+
+/* Browser triangle fixes limited strictly to the architecture section */
+.architecture-section .snippet summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Numbered circles limited strictly to the architecture section */
+.architecture-section .dropdown-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;    
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #cbd5e1; 
+  background: transparent;   
+  color: #64748b;            
+  font-size: 0.875rem;       
+  font-weight: 400;          
+}
+
+/* Hover styles limited strictly to the architecture section */
+.architecture-section .snippet:hover .dropdown-num {
+  border-color: #94a3b8;
+  color: #475569;
+}
+
+/* Content paragraphs - FIX: shifted margin to padding to guarantee isolation */
+.architecture-section .snippet > p {
+  padding-left: 40px; 
+  padding-top: 12px; /* Controlled internal space instead of collapsible margin */
+  margin-top: 0;     /* Strips out the breaking default browser margin */
+  margin-bottom: 0;
+}
+
+.architecture-section .snippet ul {
+  padding-left: 60px; 
+  padding-top: 3px; /* Controlled internal space instead of collapsible margin */
+  margin-top: 0;     /* Strips out the breaking default browser margin */
+  margin-bottom: 0;
+  color: #606060; 
+}
+
+
+
+.arch-image {
+  display: block; 
+  position: relative; 
+  width: 85%;          /* Shrinks width from 90% to 60% to create side space */
+  margin: 15px auto;   /* Centers the image and adds space to top and bottom */
+  height: auto;        /* Crucial: keeps the diagram perfectly proportional */
+  max-height: 475px;   /* Limits the vertical size safely */
+  border-radius: var(--radius);
+}
+
+/* ===== Solution ===== */
+.sol-image2 {
+  display: block; 
+  position: relative; 
+  width: 57%;          /* Shrinks width from 90% to 60% to create side space */
+  margin: 30px auto;   /* Centers the image and adds space to top and bottom */
+  height: auto;        /* Crucial: keeps the diagram perfectly proportional */
+  max-height: 500px;   /* Limits the vertical size safely */
+  border-radius: var(--radius);
+}
+.sol-image {
+  display: block; 
+  position: relative; 
+  width: 55%;          /* Shrinks width from 90% to 60% to create side space */
+  margin: 30px auto;   /* Centers the image and adds space to top and bottom */
+  height: auto;        /* Crucial: keeps the diagram perfectly proportional */
+  max-height: 550px;   /* Limits the vertical size safely */
+  border-radius: var(--radius);
+}
+
+.image-wrap{position:relative}
+.main-image{width:100%; height:380px; object-fit:cover;
+  border:none !important; border-radius:0 !important;}
+.floating-spec{position:absolute; background:var(--bg); color:var(--muted);
+  padding:8px 12px; border-radius:var(--radius); border:1px solid var(--border);
+  font-size:0.85rem; font-weight:400}
+.spec-1{top:-10px; right:-10px}
+.spec-2{bottom:-10px; left:-10px}
+.tech-stack{background:transparent; border:1px solid var(--border);
+  padding:16px; border-radius:var(--radius); margin:var(--space-md) 0}
+.tech-title{font-size:0.95rem; margin-bottom:8px; text-align: center;}
+.tech-list{display:flex; flex-wrap:wrap; gap:18px; align-items: center; justify-content: center;}
+.tech-item{background:var(--bg); border:1px solid var(--border);
+  padding:6px 10px; border-radius:999px; font-size:0.85rem; font-weight:400; color:var(--ink)}
+.media figcaption{font-size:0.9rem; color:var(--muted); padding:10px 12px; border-top:1px solid var(--border)}
+/* ===== Timeline ===== */
+.timeline{position:relative; margin-top:var(--space-md)}
+.timeline::before{content:""; position:absolute; left:24px; top:0; bottom:0; width:1px; background:var(--border)}
+.t-item{display:flex; align-items:center; gap:16px; margin-bottom:24px}
+.t-num{flex-shrink:0; width:46px; height:46px; border-radius:999px; background:var(--ink);
+  color:#fff; font-weight:400; font-size:1.125rem; display:flex; align-items:center; justify-content:center}
+.t-card{flex:1; background:var(--bg); border:1px solid var(--border);
+  padding:20px; border-radius:var(--radius); font-size:0.85rem}
+.t-card p{margin:0 0 var(--space-md); color:var(--muted); font-size:1rem}
+.t-p{margin:0 0 var(--space-md); color:var(--muted); font-size:1rem} 
+
+  /* ===== Stats ===== */
+.grid-4{grid-template-columns:1fr 1fr 1fr 1fr}
+.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+.stat-card{text-align:center; padding:24px; background:var(--bg); border-radius:var(--radius);}
+.stat-number{font-size:2rem; font-weight:400; color:var(--ink); margin-bottom:8px}
+.stat-label{font-size:0.9rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em}
+/* ===== Results ===== */
+.results-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; margin-top:var(--space-md)}
+.result-card{background:var(--bg); 
+  padding:24px 20px; border-radius:var(--radius); text-align:center;}
+.result-icon{width:56px; height:56px; border-radius:999px; font-size:2rem; font-weight:400; color:var(--ink); margin-bottom:8px;
+  display:grid; place-items:center; margin:0 auto 12px; }
+.result-title{font-size:0.95rem; font-weight:400; color:var(--ink); margin-bottom:4px}
+.result-desc{color:var(--muted); font-size:1rem}
+
+
+/* ===== Code Block ===== */
+.snippet pre { max-width: 100%; margin: 0; padding: 16px; background: #0d1117; color: #c9d1d9; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font: 14px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre; } .snippet pre code { display: block; background: none; padding: 0; margin: 0; color: inherit; font: inherit; }
+
+
+
+/* ===== CTA ===== */
+.cta{text-align:center; padding:var(--section-pad) 0; border-top:1px solid var(--border)}
+.btn{display:inline-block; background:var(--accent); color:#fff; padding:12px 22px; border-radius:999px; border:1px solid var(--accent); font-weight:400; text-decoration:none}
+.btn:hover{opacity:.9}
+/* ===== Motion ===== */
+.fade-in{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease}
+.fade-in.visible{opacity:1; transform:translateY(0)}
+.slide-left{opacity:0; transform:translateX(-28px); transition:opacity .6s ease, transform .6s ease}
+.slide-left.visible{opacity:1; transform:translateX(0)}
+.slide-right{opacity:0; transform:translateX(28px); transition:opacity .6s ease, transform .6s ease}
+.slide-right.visible{opacity:1; transform:translateX(0)}
+@media (max-width:900px){.two-col{grid-template-columns:1fr; gap:20px}
+.main-image{height:320px}
+.l-grid{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){.fade-in,.slide-left,.slide-right{transition:none; transform:none; opacity:1}
+html{scroll-behavior:auto}
+}
+
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
+/* ===== Vertical Rhythm Tightening ===== */
+
+/* Headings */
+h1, h2, h3{margin-bottom: 12px;}
+/* was 16–20px */
+
+/* Paragraphs */
+p{margin-bottom: 12px;}
+/* Subsection titles inside sections */
+.section-title{margin-bottom: 16px;}
+/* Component spacing inside sections */
+.problem .highlight,
+.tech-stack,
+.media-grid,
+.results-grid,
+.timeline,
+.l-grid{margin-top: 16px;}
+/* Cards inner headings */
+.t-card h3,
+.t-card p,
+.result-title,
+.l-card h3,
+.tech-title{margin-bottom: 6px;}
+/* Timeline items spacing */
+.t-item{margin-bottom: 20px;}
+/* Results → Learnings extra gap for hierarchy */
+.section.results{padding-bottom: calc(var(--section-pad) + 20px);}
+/* Make sure all sections use same base padding */
+.section,
+.learnings,
+.cta{padding: var(--section-pad) 0;}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">Sara Sharifzadeh</a></div>
+  <nav>
+    <a href="about.html">About Me</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <span class="project-tag">Data Engineer · Enterprise Software Platform </span>
+      <h1>Entity Resolution Pipeline </h1>
+      <br>
+      <p class="hero-subtitle measure" style="text-align: left;">
+       Built an automated entity-resolution system + batch data pipeline that automated a previously manual process for reconciling millions of software-usage records across 3 data sources. The pipeline leverages Airflow/MWAA for orchestration, DuckDB and Python for transformation and rule-based entity resolution, and S3/Parquet for low-cost analytical storage. This solution eliminated 26 hours of manual work each month without introducing any additional infrastructure costs. The design prioritizes correctness over coverage by quarantining unresolved records rather than risking incorrect organization assignments.
+      </p>
+      <br>
+      <p style="text-align: left;"><strong>Domain:</strong> Enterprise Software Platform</p>
+      <p style="text-align: left;"><strong>Data:</strong> Software License Usage</p>
+      <br>
+        <div>
+          <img 
+            src="images/pipeline1-entity/pipe_1.png"
+            alt="pipeline-diagram"
+            class="sol-image"
+            loading="lazy" decoding="async">
+        </div>  
+    </div>
+  </section>
+
+
+
+  <!-- Problem -->
+  <section class="section problem">
+    <div class="container">
+      <h2 class="section-title fade-in">The Problem</h2>
+        <div>
+          <div class="measure">
+            <p>
+             A largely manual process was used to reconcile millions of usage events, many of which were missing key identifiers necessary for accurate tracking. This manual workflow involved visually scanning incomplete records to match them to the correct organization while maintaining business-specific licensing rules. As data volume increased, the process became increasingly time consuming, difficult to scale, and heavily error-prone.
+            </p>
+            <p>The biggest constraint was the strict requirement that no additional infrastructure costs could be introduced. </p>
+            <br>
+            <div>
+              <details class="snippet fade-in">
+              <summary>What was being done manually?</summary>
+                <br>
+                <p>Software usage & licensing telemetry were manually aggregated on a monthly basis. There were 3 sources of data maintained separately, with inconsistencies across each (Database, Salesforce, Spreadsheets).</p>
+                <p>In addition, the 3 sources of data were not synced. The transfer of information was done via copy-paste or new custom entry for every single record, resulting in poor data quality at the source. So for example,
+                  <ul>
+                    
+                    <li>Database: License Key A’s Organization Name = </li>
+                     <ul><li>“Domino’s Pizza”</li></ul>
+                   <li>Salesforce: License Key A’s Organization Name =  </li>
+                    <ul><li>“DOMINOS PIZZA (XYZ Contract)”</li></ul>
+                  </ul>
+
+                </p>
+              </details>
+              <details class="snippet fade-in">
+              <summary>What happened when the primary identifier was missing?</summary>
+              <br>  
+              <p>When the primary universal identifier (license key) was missing, the record was also manually processed by visually scanning the dataset for alternative identifiers. As volume increased, this resulted in growing manual effort.</p>
+              </details>
+            </div>
+            <div class="highlight">
+              <strong>The Core Challenge:</strong> automate a recurring manual workflow, consolidate 3 data sources, & recover missing usage without introducing additional infrastructure costs for a lean engineering team
+            </div>
+          </div>
+        </div>
+    </div>
+  </section>
+
+    <!-- Solution (NEW)-->
+  <section class="section solution">
+    <div class="container">
+      <h2 class="section-title fade-in">The Solution</h2>
+          <div class="tech-stack">
+            <div class="tech-title">Core Tech Stack</div>
+              <div class="tech-list">
+                <span class="tech-item">Python</span>
+                <span class="tech-item">SQL</span>
+                <span class="tech-item">PostgreSQL</span>
+                <span class="tech-item">DuckDB</span>
+                <span class="tech-item">Apache Airflow</span>
+                <span class="tech-item">Amazon S3</span>
+                <span class="tech-item">Parquet</span>
+              </div>
+          </div>
+        <br></br>
+        <!-- Unique wrapping section container added here -->
+        <section class="architecture-section">
+
+          <div class="center-wrapper">
+            
+            <details class="snippet fade-in" open>
+              <summary><span class="dropdown-num">1</span> Rule-Based Entity Resolution</summary>
+                  <p>Rule-based entity resolution was a design decision & business requirement that weighed accuracy over coverage. An organization might be missing a primary universal ID, but there were several alternatives that I captured to stitch together a complete record. </p>
+                  <details class="og-snippet fade-in">
+                    <summary>Why exact matching?</summary>
+                    <p>The final output feeds downstream usage reporting. An incorrect assignment (false positive) was more destructive than leaving a record unresolved. Exact-match rules were only made on validated identifiers, which were known to be unique. </p>
+                  </details>
+                  <details class="og-snippet fade-in">
+                    <summary>What happens when no match exists to any fallback identifier?</summary>
+                    <p>A record without any matches is never assigned to an organization. It is separated from reconstructed records in it's own table and never enters the next phase of the pipeline. </p>
+                  </details>
+                  <details class="og-snippet fade-in">
+                    <summary>How were alternative identifiers validated?</summary>
+                    <p>Alternative identifiers consisted of unique app manifests (custom by org), app uuids, and network IP ranges. They were often used in combination. </p>
+                    <p>They were validated with solutions engineers, and even brought to the organization themselves for review.</p>
+                  </details>
+                  <img 
+                    src="images/pipeline1-entity/entity.png"
+                    alt="add image of rule entity resolution"
+                    class="sol-image2"
+                    loading="lazy" decoding="async">
+            </details>
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">2</span> Architecture & Key Decisions</summary>
+                 <p><strong>Architecture Constraints</strong></p>  
+                  <p>
+                    <ul>
+                      <li>Scale: process ~8 million records per monthly reporting period.</li>
+                      <li>Cost: Eliminate the manual workflow with <u>no additional infrastructure spend.</u></li>
+                      <li>Existing Infrastructure: Build around PostgreSQL and S3, which were already available.</li>
+                      <li>Automation: make the workflow repeatable, scheduled, and automated.</li>
+                    </ul>
+                  </p>
+                  
+                  <p><strong>Pipeline Stages</strong></p>
+                  <img 
+                    src="images/pipeline1-entity/stage.png"
+                    alt="architecture diagram large one or small one "
+                    class="arch-image"
+                    loading="lazy" decoding="async">
+                  
+                  <p><strong>Key Decisions</strong></p>
+                    <details class="og-snippet fade-in" open> <summary>1. DuckDB for Batch Processing</summary>
+                       <p>DuckDB was well suited to local analytical batch processing and enabled me to perform the transformations I needed, quickly. This was sufficient for the current monthly batch workload. For this reason, I wasn’t able to justify adding and operating a separate distributed processing tool like Apache Spark to our infrastructure. </p>
+                    </details>
+                    <details class="og-snippet fade-in"> <summary>2. Airflow / MWAA  over Cron</summary>
+                       <p>The monthly workflow needed to replace manual execution with a repeatable process. I wanted to be able to manage task dependencies, retries, scheduling, and pipeline failures as the workflow grew. </p>
+                     
+                    
+                    </details>
+                    <details class="og-snippet fade-in"> <summary>3. Quarantine Unresolved Records</summary>
+                       <p>False positives were more damaging than leaving records unresolved. Only validated matches reach downstream reporting, while ambiguous records remain isolated for review. </p>
+                    </details>
+                 
+
+            </details>
+
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">3</span> Trade-Offs </summary>
+              <p>This project wasn’t intending to drastically modernize our current setup. My goal was to eliminate a recurring manual process under a strict set of constraints. With that said, I would make several changes if I could do it all again</p>
+                  <details class="og-snippet fade-in"> <summary>What are the known limitations?</summary>
+                  <p>As it stands the execution time for <u>8 million records has been consistently under 10 minutes</u>, which is decent for our scale. Our MWAA configuration is structured for handling large workload bursts.  </p>
+                  <p> However, it would fail at a few points:
+                    <ul>
+                      <li>Volume Skyrocketed: if the volume of data were to double, this could push workers over the RAM threshold, triggering an immediate AWS out-of-memory container kill </li>
+                      <li>Schema Expansion: in the case that several new columns were necessary for processing, the memory per row would increase, causing a crash at a lower row count</li>
+                      <li>Concurrent DAGs: if other airflow tasks were to run on the same worker at the exact same time, the combined memory usage could crash the pipeline</li>
+                    </ul>
+                    <p>For this reason, compute isolation is the first proposed evolution as workload requirements grow.</p>
+                  </p>
+                </details>
+              
+              <p><strong>Trade-Offs</strong></p> 
+                  <img src="images/pipeline1-entity/tradeoff.png"
+                    alt="trade-offs table "
+                    class="arch-image"
+                    loading="lazy" decoding="async">
+            </details>
+          </div>
+      </section> 
+    </div>
+  </section>
+
+
+ <!-- Results -->
+  <section class="section results">
+    <div class="container">
+      <h2 class="section-title fade-in">Results & Impact</h2>
+      <div class="results-grid">
+        <div class="result-card fade-in">
+          <div class="result-icon">26</div>
+          <div class="result-title">Hours Eliminated</div>
+          <p class="result-desc">from manual processes</p>
+        </div>
+        <div class="result-card fade-in">
+          <div class="result-icon">8M</div>
+          <div class="result-title">Records Processed</div>
+          <p class="result-desc">monthly batch-workload</p>
+        </div>
+        <div class="result-card fade-in">
+          <div class="result-icon"> &lt;10</div>
+          <div class="result-title">Minutes</div>
+          <p class="result-desc">execution time</p>
+        </div>
+        <div class="result-card fade-in">
+          <div class="result-icon">$0</div>
+          <div class="result-title">Additional Infrastructure Costs</div>
+          <p class="result-desc">optimized for existing layout</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Future Roadmap -->
+  <section class="section process" id="process">
+    <div class="container">
+      <h2 class="section-title fade-in">Future Roadmap & Lessons Learned</h2>
+
+      <div style="display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;">
+
+        <!-- Timeline on the left -->
+        <div class="timeline" style="flex:1;">
+          <div class="t-item fade-in">
+            <div class="t-num">1</div>
+            <div class="t-card">
+              <h3>Isolate Compute with AWS Fargate Containers</h3>
+              <p>This shifts DuckDB data processing off the MWAA workers entirely & allows Airflow to remain purely as an orchestration tool, which is its purpose.
+               Until decoupling is worth the added complexity, I'm monitoring MWAA for sustained pressure (memory use during runs & runtime growth).</p>
+              <p><u>Lesson Learned:</u> never running into an out-of-memory crash doesnt equate to being prepared for the scenario where you do. Always have a clear separation of transformation & orchestration. </p>
+            </div>
+          </div>
+          <div class="t-item fade-in">
+            <div class="t-num">2</div>
+            <div class="t-card">
+              <h3>Data Quality at the Source </h3>
+              <p>It’s very difficult to constantly chase after messy data when you have no authority over the source systems. .</p>
+              <p><u>Lesson Learned:</u> if I could start this all over again, I’d push for more regulation of data entry within source-systems prior to any development. </p>
+            </div>
+          </div>
+          <div class="t-item fade-in">
+            <div class="t-num">3</div>
+            <div class="t-card">
+              <h3>Adopt dbt for Quality Testing</h3>
+              <p> Id like to move transformations into models I can automatically test on uniqueness, nullability, reconciliation, and entity-resolution outcomes. </p>
+              <p><u>Lesson Learned:</u> custom logging can get a bit messy. Delegating to a tool like dbt allows for version control and cleaner code management.</p>
+            </div>
+          </div>
+        </div>
+         </section>
+
+
+
+
+         
+
+  <script>
+    // reveal on scroll
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+    },{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+    document.querySelectorAll('.fade-in,.slide-left,.slide-right').forEach(el=>observer.observe(el));
+
+    // header elevation
+    const header=document.querySelector('header');
+    addEventListener('scroll',()=>{
+      const y=window.pageYOffset||document.documentElement.scrollTop;
+      header.style.boxShadow = y>96?'0 2px 18px rgba(17,17,17,0.08)':'none';
+      header.style.background = y > 96? 'rgba(255,255,255,0.90)': 'rgba(255,255,255,0.75)'
+    });
+
+    // stagger timeline
+    const items=document.querySelectorAll('.t-item');
+    const tObs=new IntersectionObserver((ents)=>{
+      ents.forEach((entry,idx)=>{
+        if(entry.isIntersecting) setTimeout(()=>entry.target.classList.add('visible'), idx*120);
+      });
+    },{threshold:0.5});
+    items.forEach(i=>tObs.observe(i));
+  </script>
+</body>
+</html>

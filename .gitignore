@@ -1,0 +1,14 @@
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/*
+.ipynb_checkpoints
+
+
+# Python Cache
+__pycache__
+*.py[cod]
+content/__pycache__
+content/*.py[cod]
+
+# macOS System Files
+.DS_Store

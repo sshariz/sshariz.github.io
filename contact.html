@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW, NOIMAGEAI, NOAI, NOLLM">
+    
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Sara | Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+:root{--bg:#ffffff; --ink:#111111; --muted:#606060; --accent:#111111;
+    --border: rgba(17,17,17,0.10); --elev: rgba(17,17,17,0.04);
+    --radius: 10px; --container:1200px; --section-pad: 40px; --space-md:16px;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size:1rem; line-height:1.6; font-weight:200; letter-spacing:-0.005em;
+    padding-top:72px; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+h1,h2,h3{margin:0 0 var(--space-md); font-weight:400; letter-spacing:-0.02em; color:var(--ink)}
+h1{font-size:clamp(2.25rem,6vw,3rem); line-height:1.1}
+h2{font-size:0.95rem; text-transform:uppercase; letter-spacing:0.12em}
+p{margin:0 0 var(--space-md); color:var(--muted)}
+.container{max-width:var(--container); margin:0 auto; padding:0 10px}
+.hero{padding:var(--section-pad) 0; text-align:center}
+.hero-subtitle{font-size:1rem; color:var(--muted); margin-top:20px;
+    max-width:68ch; margin-inline:auto;}
+.section{padding:var(--section-pad) 0}
+.card{background:var(--bg); border:1px solid var(--border); border-radius:var(--radius);
+    padding:24px;}
+.muted{color:var(--muted)}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    min-width:200px; /* ensure equal width */
+    background:var(--accent); color:#fff; text-decoration:none;
+    padding:12px 22px; border-radius:999px; border:1px solid var(--accent);
+    font-weight:400; transition:opacity .3s ease;}
+.btn:hover{opacity:.9}
+.btn-row{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+.btn.black{background:#111; color:#fff; border-color:#111;}
+label{display:block; font-size:.9rem; color:var(--muted); margin-bottom:6px}
+input, textarea{width:100%; border:1px solid var(--border); background:#fff; color:var(--ink);
+    border-radius:10px; padding:12px 14px; font-family:inherit; font-size:1rem;}
+textarea{min-height:140px; resize:vertical}
+.field{margin-bottom:14px}
+.cta{text-align:center; padding:var(--section-pad) 0; border-top:1px solid var(--border)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
+
+
+.section .container {
+  display: flex;
+  justify-content: center;
+}
+</style>
+</head>
+<body>
+<header>
+    <div class="logo"><a href="index.html">Sara Sharifzadeh</a></div>
+    <nav>
+      <a href="about.html">About Me</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <h1>Let’s get in touch.</h1>
+    <p class="hero-subtitle">Reach out!</p>
+    <div class="btn-row" style="margin-top:20px">
+      <a class="btn black" href="https://www.linkedin.com/in/ssarazadeh/" target="_blank">
+        <i class="fa-brands fa-linkedin"></i> LinkedIn
+      </a>
+      <a class="btn black" href="https://github.com/sshariz" target="_blank">
+        <i class="fa-brands fa-github"></i> Github
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- Light CTA -->
+<section class="cta">
+  <div class="container" style="margin-top:200px">
+    <h2>Available for collaboration</h2>
+  </div>
+</section>
+
+<script>
+  // Header elevation on scroll
+  const hdr=document.querySelector('header');
+  addEventListener('scroll',()=>{
+    const y=window.pageYOffset||document.documentElement.scrollTop;
+    hdr.style.boxShadow = y>96?'0 2px 18px rgba(17,17,17,0.08)':'none';
+    hdr.style.background = y>96?'rgba(255,255,255,0.90)':'rgba(255,255,255,0.75)';
+  });
+
+ 
+</script>
+</body>
+</html>

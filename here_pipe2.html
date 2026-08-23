@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW, NOIMAGEAI, NOAI, NOLLM">
+    
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sara | Multi-Tenant Pipeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400&display=swap" rel="stylesheet">
+  <style>
+/* ============== Design tokens (max 4 colors) ============== */
+:root{--bg:#ffffff;           /* background */
+  --ink:#111111;          /* primary text */
+  --muted:#606060;        /* secondary text */
+  --accent:#111111;       /* accent (monochrome) */
+
+  --border: rgba(17,17,17,0.10);   
+  --elev: rgba(17,17,17,0.04);     
+
+  --radius: 10px;         /* unified radius */
+  --container:1120px;
+
+  --section-pad: 80px;    /* balanced section spacing */
+  --space-md:16px;}
+*{box-sizing:border-box; box-shadow:none !important}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-size:1rem; line-height:1.6; font-weight:200; letter-spacing:-0.005em;
+  padding-top:72px; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+/* ===== Typography (4 sizes, 2 weights: 200 & 400) ===== */
+h1,h2,h3{margin:0 0 var(--space-md); font-weight:400; letter-spacing:-0.02em; color:var(--ink)}
+h1{font-size:clamp(2.25rem,6vw,3rem); line-height:1.1}
+h2{font-size:0.95rem; text-transform:uppercase; letter-spacing:0.12em}
+h3{font-size:1.125rem}
+p{margin:0 0 var(--space-md); color:var(--muted); font-size:1rem}
+.measure{max-width:89ch; margin-left:auto; margin-right:auto}
+.container{max-width:var(--container); margin:0 auto; padding:0 20px}
+.back-link{margin-left:auto; text-decoration:none; color:var(--muted); font-size:0.95rem; font-weight:200; position:relative}
+.back-link:hover{color:var(--ink)}
+.back-link::after{content:""; position:absolute; left:0; bottom:-4px; height:1px; width:0; background:var(--ink); transition:width .25s ease}
+.back-link:hover::after{width:100%}
+/* ===== Hero ===== */
+.hero{padding:var(--section-pad) 0; border-bottom:none; text-align:center}
+.project-tag{display:inline-block; margin-bottom:25px; font-size:0.85rem; color:var(--muted);
+  background:transparent; border:1px solid var(--border);
+  padding:6px 12px; border-radius:999px; font-weight:200}
+.hero-subtitle{font-size:1rem; color:var(--muted);
+  margin-top:20px; max-width:115ch; text-align:center; margin-left:auto; margin-right:auto;}
+  .image{display:block; width:100%; height:auto; border-radius:var(--radius)}
+/* ===== Sections ===== */
+.section{padding:var(--section-pad) 0}
+.section-title{text-align:center; margin-bottom:var(--space-md)}
+/* ===== Grids ===== */
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:start}
+/* ===== Problem ===== */
+.problem .highlight{background:transparent; border:1px solid var(--border);
+  padding:16px; border-radius:var(--radius); margin:var(--space-md) 0; color:var(--muted)}
+/* ===== Solution ===== */
+.image-wrap{position:relative}
+.main-image{width:100%; height:380px; object-fit:cover;
+  border:none !important; border-radius:0 !important;}
+.floating-spec{position:absolute; background:var(--bg); color:var(--muted);
+  padding:8px 12px; border-radius:var(--radius); border:1px solid var(--border);
+  font-size:0.85rem; font-weight:400}
+.spec-1{top:-10px; right:-10px}
+.spec-2{bottom:-10px; left:-10px}
+.tech-stack{justify-content: center; background:transparent; border:1px solid var(--border);
+  padding:16px; border-radius:var(--radius); margin:var(--space-md) 0; }
+.tech-title{font-size:0.95rem; margin-bottom:8px; text-align: center;}
+.tech-list{display:flex; flex-wrap:wrap; gap:18px; align-items: center; justify-content: center;}
+.tech-item{background:var(--bg); border:1px solid var(--border);
+  padding:6px 10px; border-radius:999px; font-size:0.85rem; font-weight:400; color:var(--ink)}
+.media figcaption{font-size:0.9rem; color:var(--muted); padding:10px 12px; border-top:1px solid var(--border)}
+/* ===== Timeline ===== */
+.timeline{position:relative; margin-top:var(--space-md)}
+.timeline::before{content:""; position:absolute; left:24px; top:0; bottom:0; width:1px; background:var(--border)}
+.t-item{display:flex; align-items:center; gap:16px; margin-bottom:24px}
+.t-num{flex-shrink:0; width:46px; height:46px; border-radius:999px; background:var(--ink);
+  color:#fff; font-weight:400; font-size:1.125rem; display:flex; align-items:center; justify-content:center}
+.t-card{flex:1; background:var(--bg); border:1px solid var(--border);
+  padding:20px; border-radius:var(--radius); font-size:1rem}
+
+  /* ===== Architecture-Section ===== */
+/* Layout wrapper limited strictly to the architecture section */
+.architecture-section .center-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px; 
+  width: 100%;
+}
+
+/* Dropdown containers - FIX: added overflow hidden to prevent content peeking */
+.architecture-section .snippet {
+  width: 100%;
+  max-width: 650px; 
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0; 
+  padding-bottom: 16px;
+  overflow: hidden; /* Clears margin collapse and hides rogue inner margins */
+}
+
+/* Summary headers limited strictly to the architecture section */
+.architecture-section .snippet summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500; 
+  font-size: 1.05rem;
+  color: #1e293b; 
+  cursor: pointer;
+  list-style: none; 
+  position: relative; /* Keeps header strictly on top layer */
+  z-index: 2;
+}
+
+/* Browser triangle fixes limited strictly to the architecture section */
+.architecture-section .snippet summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Numbered circles limited strictly to the architecture section */
+.architecture-section .dropdown-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;    
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #cbd5e1; 
+  background: transparent;   
+  color: #64748b;            
+  font-size: 0.875rem;       
+  font-weight: 400;          
+}
+
+/* Hover styles limited strictly to the architecture section */
+.architecture-section .snippet:hover .dropdown-num {
+  border-color: #94a3b8;
+  color: #475569;
+}
+
+/* Content paragraphs - FIX: shifted margin to padding to guarantee isolation */
+.architecture-section .snippet p {
+  padding-left: 40px; 
+  padding-top: 12px; /* Controlled internal space instead of collapsible margin */
+  margin-top: 0;     /* Strips out the breaking default browser margin */
+  margin-bottom: 0;
+}
+
+.architecture-section .snippet ul {
+  padding-left: 60px; 
+  padding-top: 3px; /* Controlled internal space instead of collapsible margin */
+  margin-top: 0;     /* Strips out the breaking default browser margin */
+  margin-bottom: 0;
+  color: #606060; 
+}
+
+
+
+.architecture-section .snippet h4 {
+display: flex;
+padding-left: 15px; 
+  align-items: center;
+  gap: 12px;
+  font-weight: 500; 
+  font-size: 1.05rem;
+  color: #1e293b; 
+  cursor: pointer;
+  list-style: none; 
+  position: relative; /* Keeps header strictly on top layer */
+  z-index: 2;
+}
+
+.arch-image {
+  display: block; 
+  position: relative; 
+  width: 85%;          /* Shrinks width from 90% to 60% to create side space */
+  margin: 15px auto;   /* Centers the image and adds space to top and bottom */
+  height: auto;        /* Crucial: keeps the diagram perfectly proportional */
+  max-height: 500px;   /* Limits the vertical size safely */
+  border-radius: var(--radius);
+}
+
+
+  /* ===== Stats ===== */
+.grid-4{grid-template-columns:1fr 1fr 1fr 1fr}
+.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+.stat-card{text-align:center; padding:24px; background:var(--bg); border-radius:var(--radius);}
+.stat-number{font-size:2rem; font-weight:400; color:var(--ink); margin-bottom:8px}
+.stat-label{font-size:0.9rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em}
+/* ===== Results ===== */
+.results-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; margin-top:var(--space-md)}
+.result-card{background:var(--bg); 
+  padding:24px 20px; border-radius:var(--radius); text-align:center;}
+.result-icon{width:56px; height:56px; border-radius:999px; font-size:2rem; font-weight:400; color:var(--ink); margin-bottom:8px;
+  display:grid; place-items:center; margin:0 auto 12px; }
+.result-title{font-size:0.95rem; font-weight:400; color:var(--ink); margin-bottom:4px}
+.result-desc{color:var(--muted); font-size:1rem}
+
+/* ===== Learnings ===== */
+.learnings{background:var(--ink); color:#fff; padding:var(--section-pad) 0}
+.learnings .section-title{color:#e8e8e8}
+.l-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:var(--space-md)}
+.l-card{background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.14);
+  padding:18px; border-radius:var(--radius)}
+.l-card h3{color:#ffffff; font-weight:400; margin-bottom:8px}
+.l-card p{color:#d8d8d8}
+
+/* ===== Code Block ===== */
+.snippet pre {
+    max-width: 100%;
+    margin: 0;
+    padding: 16px;
+    background: #0d1117;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    overflow-x: auto;
+    font: 14px/1.45 ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          Consolas,
+          monospace;
+    white-space: pre;
+}
+
+.snippet pre code {
+    display: block;
+    background: none;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    font: inherit;
+}
+
+
+/* ===== CTA ===== */
+.cta{text-align:center; padding:var(--section-pad) 0; border-top:1px solid var(--border)}
+.btn{display:inline-block; background:var(--accent); color:#fff; padding:12px 22px; border-radius:999px; border:1px solid var(--accent); font-weight:400; text-decoration:none}
+.btn:hover{opacity:.9}
+/* ===== Motion ===== */
+.fade-in{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease}
+.fade-in.visible{opacity:1; transform:translateY(0)}
+.slide-left{min-width: 0; opacity:0; transform:translateX(-28px); transition:opacity .6s ease, transform .6s ease}
+.slide-left.visible{opacity:1; transform:translateX(0)}
+.slide-right{opacity:0; transform:translateX(28px); transition:opacity .6s ease, transform .6s ease}
+.slide-right.visible{opacity:1; transform:translateX(0)}
+@media (max-width:900px){.two-col{grid-template-columns:1fr; gap:20px}
+.main-image{height:320px}
+.l-grid{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){.fade-in,.slide-left,.slide-right{transition:none; transform:none; opacity:1}
+html{scroll-behavior:auto}
+}
+
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
+/* ===== Vertical Rhythm Tightening ===== */
+
+/* Headings */
+h1, h2, h3{margin-bottom: 12px;}
+/* was 16–20px */
+
+/* Paragraphs */
+p{margin-bottom: 12px;}
+/* Subsection titles inside sections */
+.section-title{margin-bottom: 16px;}
+/* Component spacing inside sections */
+.problem .highlight,
+.tech-stack,
+.media-grid,
+.results-grid,
+.timeline,
+.l-grid{margin-top: 16px;}
+/* Cards inner headings */
+.t-card h3,
+.result-title,
+.l-card h3,
+.tech-title{margin-bottom: 6px;}
+/* Timeline items spacing */
+.t-item{margin-bottom: 20px;}
+/* Results → Learnings extra gap for hierarchy */
+.section.results{padding-bottom: calc(var(--section-pad) + 20px);}
+/* Make sure all sections use same base padding */
+.section,
+.learnings,
+.cta{padding: var(--section-pad) 0;}
+.sol-image {
+  display: block; 
+  position: relative; 
+  width: 62%;          /* Shrinks width from 90% to 60% to create side space */
+  margin: 40px auto;   /* Centers the image and adds space to top and bottom */
+  height: auto;        /* Crucial: keeps the diagram perfectly proportional */
+  max-height: 600px;   /* Limits the vertical size safely */
+  border-radius: var(--radius);
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">Sara Sharifzadeh</a></div>
+  <nav>
+    <a href="about.html">About Me</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <span class="project-tag">Data Engineer · Enterprise Software Platform </span>
+      <h1>Multi-Tenant ELT Framework - Product Analytics </h1>
+
+      <br>
+      <p style="text-align: left;" class="hero-subtitle measure">
+      Designed a production-grade ELT pipeline that centralized product telemetry from isolated, database-per-tenant GraphQL APIs into a governed analytics platform. The architecture was intentionally designed around several production constraints, including tenant isolation, restricted database access, and operational reliability. 
+      
+      I used a configuration-driven multi-tenant ingestion framework, windowed idempotent loading for safe reruns + historical backfills, and independent job execution that isolates tenant failures without interrupting other workloads. 
+      
+      Built with an environment-agnostic architecture, the pipeline scales across 15 tenant environments and 75 monthly ingestion jobs while delivering governed datasets that enable historical and cross-environment product analytics. I introduced dbt to the company with this project.
+      </p>
+      <br>
+      <p style="text-align: left;"><strong>Domain:</strong> Enterprise Software Platform</p>
+      <p style="text-align: left;"><strong>Data:</strong> Product Analytics Telemetry </p>
+        <div>
+          <img 
+            src="images/pipeline2-analytics/f_pipeline_2.png"
+            alt="pipeline-diagram"
+            class="sol-image"
+            loading="lazy" decoding="async">
+        </div>  
+
+       <!-- CODE VERSION OF DIAG <div>
+        <div class="snippet fade-in" open>
+            <pre text-align: center;><code>
+GraphQL API
+│
+▼
+Python Extract
+│
+▼
+Raw PostgreSQL Tables
+│
+▼
+dbt Models
+│
+▼
+Analytics Marts
+│
+▼
+Amazon S3
+        </code></pre>
+        </div>
+      </div> -->
+    
+  </section>
+
+  <!-- Problem -->
+  <section class="section problem">
+    <div class="container">
+      <h2 class="section-title fade-in">The Problem</h2>
+        <div>
+          <div class="measure">
+            <p> 
+            Data was intentionally separated behind multiple isolated GraphQL API endpoints with predefined views. Each endpoint required independent ingestion and processing to preserve logical data separation. This prevented the ability to perform historical trend analysis and cross-environment comparisons necessary to deliver a range of analytics features within the product platforms analytics applications. Additionally, if we wanted to maintain principle-of-least-privilege (POLP) there had to be a vehicle providing internal teams with safe access to the data they needed.
+            </p>
+            <br>
+            <div>
+              <details class="snippet fade-in">
+              <summary>Why were tenants isolated?</summary>
+                <p>The multi-tenancy framework utilizes datbase-per-tenant. Direct database access was intentionally prohibited for SOC compliance, to prevent tenant cross-contamination, and protect operational database performance.</p>
+              </details>
+              <details class="snippet fade-in">
+              <summary>Why GraphQL instead of direct SQL?</summary>
+                <p>A GraphQL application layer provided precomputed analytics events via PostgreSQL materialized views (heartbeats, tab navigations, content views, etc.) which are refreshed at intervals ≤ 24hrs. Querying live tables introduce performance risk, security concerns, and inflexibility.</p>
+              </details>
+              <details class="snippet fade-in">
+              <summary>Why Materialized Views?</summary>
+                <p>Materialized Views solve this by providing:
+                  <ul>
+                    <li>performance isolation: queries run against pre-computed snapshot, not live data</li>
+                    <li>security: no arbitrary SQL execution; only predefined views are exposed</li>
+                    <li>flexibility: GraphQL lets consumers request exactly the fields they need</li>
+                  </ul>    
+                </p>
+              </details>
+
+            </div>
+
+            <div class="highlight">
+              <strong>The Core Challenge:</strong> safely navigate complex tenant architecture while providing a myriad of product analytics
+            </div>
+          </div>
+        </div>
+  
+    </div>
+  </section>
+
+  <!-- Solution -->
+  <section class="section solution">
+    <div class="container">
+      <h2 class="section-title fade-in">The Solution - Architectural Decisions</h2>
+          <div class="tech-stack">
+            <div class="tech-title">Core Tech Stack</div>
+              <div class="tech-list">
+                <span class="tech-item">Python</span>
+                <span class="tech-item">SQL</span>
+                <span class="tech-item">GraphQL</span>
+                <span class="tech-item">PostgreSQL</span>
+                <span class="tech-item">dbt · dbt-core</span>
+                <span class="tech-item">Amazon S3</span>
+              </div>
+          </div>
+        <br></br>
+        <!-- Unique wrapping section container added here -->
+        <section class="architecture-section">
+          <div class="center-wrapper">
+                        
+            <details class="snippet fade-in" open>
+              <summary><span class="dropdown-num">1</span> SCALABILITY - Configuration-Driven Multi-Tenant Ingestion</summary>
+              <p>Given there are multiple isolated environments, and they each require independent ingestion, the entire extract module was designed to prepare for the scale of oncoming tenants. 10 environments of interest could turn into 100, and custom code for each would be difficult to maintain or debug. </p>
+              
+              <img 
+                src="images/pipeline2-analytics/arch/a_1.png"
+                alt="pipeline-diagram"
+                class="arch-image"
+                loading="lazy" decoding="async">
+             
+            <p>For this reason, the ingestion code was environment-agnostic, meaning it worked generically. Whenever a new env was needed, it was simply an entry to the configuration.</p>
+            </details>
+
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">2</span> MODULARITY - Independent Stage Execution</summary>
+              <p>Every stage of the pipeline can be executed independently. There were many moving parts and structures were expected to change.
+                A modular design choice prevented structural specific (source of data or final landing) changes from disrupting other processes. I wanted an easy way to adapt if need be.</p>
+               <img 
+                src="images/pipeline2-analytics/arch/a_2.png"
+                alt="pipeline-diagram"
+                class="arch-image"
+                loading="lazy" decoding="async">
+            </details>
+
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">3</span> RELIABILITY - Idempotent Window-Based Load</summary>
+              <p>If something were to go wrong and I needed to re-run, I wanted to prevent duplicating the existing data or losing historical continuity by unintended deletion (aka preventing reruns and backfills). 
+              This layer utilized idempotent window-based loading. Idempotency means repeated execution lands on the same final state. So running many times gives the same result as if you were to run once. Delete-then-reload is scoped to the fetched date window, tagged with a timestamp, not by full-table replace.</p>
+                <img 
+                src="images/pipeline2-analytics/arch/a_3.png"
+                alt="pipeline-diagram"
+                class="arch-image"
+                loading="lazy" decoding="async">
+            </details>
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">4</span> OBSERVABILITY - Failure Isolation & Independent Jobs</summary>
+              <p>My experience with APIs led me to understand that failures would happen.</p>
+                <img 
+                src="images/pipeline2-analytics/arch/a_4.png"
+                alt="pipeline-diagram"
+                class="arch-image"
+                loading="lazy" decoding="async">
+              <p>One example I dealt with during this development was an environment moving to a new tenant was not completely recognized in the application layer, so a stalled MV refresh resulted in empty rows on my pipeline. 
+                I wanted to be able to isolate failures and not take down the entire pipeline if one were to occur.</p>
+            </details>
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">5</span>RELIABILITY - dbt-Modeled Governed Analytics</summary>
+                <p>I introduced dbt-core to the company with this project. Previously we struggled with version-controlled querying. Given the scope of our analytics I wanted to standardize everything. </p>
+                 <img 
+                src="images/pipeline2-analytics/arch/arch_5.png"
+                alt="pipeline-diagram"
+                class="arch-image"
+                loading="lazy" decoding="async">
+                <p>A staging layer was important because there were known duplicates resulting from the MV grain, such as a user belonging to a group. I was able to maintain data quality by standardizing this dedupe in a <code>dbt macro</code> test. </p>
+                <p>I also separated the staging layer by domain of the product telemetry as opposed to by tenant, which would hinder the scalable design.</p>
+              </details>
+
+          </div>
+      </section>
+
+
+    </div>
+  </section>
+
+
+ <!-- Results -->
+  <section class="section results">
+    <div class="container">
+      <h2 class="section-title fade-in">Results & Impact</h2>
+      <div class="results-grid">
+        <div class="result-card fade-in">
+          <div class="result-icon">15</div>
+          <div class="result-title">Environments Supported</div>
+          <p class="result-desc">designed to scale for 50+</p>
+        </div>
+        <div class="result-card fade-in">
+          <div class="result-icon" style="justify-content: center;">2.2M</div>
+          <div class="result-title">Rows/Month</div>
+          <p class="result-desc">across all tenants and tables</p>
+        </div>
+        <div class="result-card fade-in">
+          <div class="result-icon">375</div>
+          <div class="result-title">API requests/month</div>
+          <p class="result-desc">across the whole pipeline</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- NEW Future Roadmap --> 
+   <section class="section process">
+    <div class="container">
+      
+      <h2 class="section-title fade-in">Improvements & Lessons Learned</h2>
+        <section class="architecture-section">
+          <div class="center-wrapper">
+            <br></br>
+                        <details class="snippet fade-in">
+              <summary><span class="dropdown-num">1</span>Reporting Database Backend - Cost Tradeoff</summary>
+                <p>A reporting database in our use case would be a dedicated cluster that absorbs heavy analytical queries from ETL orchestrators (Apache Airflow) & BI Tools, keeping them off production transactional systems.</p>
+                <p>The main challenge in bringing this improvement to development are resource contrainsts for a lean engineering team and the justification of introducing new costs. When proposing any major architectural changes I work alongside our Director of DevOps in drafting solutions.</p>
+                <p><h4>Core Benefits</h4></p>
+                <ul>
+                  <li>Performance Isolation: Analytics queries and ETL run on a separate cluster, eliminating application slowdowns. </li>
+                  <li>Read-Optimized Schema: can use denormalized or columnar layouts  (Parquet) tuned for aggregation rather than write output.</li>
+                  <li>Data Integration: a single reporting layer consolidates data from multiple source systems before loading into a central system.</li>
+                </ul>
+                <p><h4>Architectural Options for say 30+ RDS Instances</h4></p>
+              
+                <ul>
+                  <li><h4>Native RDS Read Replicas (1:1):</h4> One read replica per production database. Airflow connects directly to each replica </li>
+                      <ul><li>Storage: each replica maintains a fully independent storage volume, doubling storage costs across every RDS</li></ul>
+                       <ul><li>Cost: costs scale linearly, each active instance is running at all times</li></ul>
+                  <li><h4>Amazon Aurora Cluster:</h4> Aurora replicas share the primary distributed storage layer, eliminating duplicated storage overhead</li>
+                  <ul><li>Storage: No additional storage cost; replicas read from the same shared volume as the primary writer.</li></ul>
+                   <ul><li>Cost: only the hourly instance cost of each replica applies.</li></ul>
+                  <li><h4>Centralized Data Warehouse / Lakehouse</h4></li>
+                  <ul><li>Stream data from all 30 production instances via AWS DMS into a single amazon Redshift Cluster or S3 Data Lake. Airflow orchestrates against one endpoint instead of thirty.</li></ul>
+                 
+                </ul>
+
+            </details>
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">2</span>Orchestration Decision & Tool Transferability</summary>
+              <p>I work closely with our Director of DevOps (we have a small team) who has helped me introduce tools like Apache Airflow to the company by building the server-side infrastructure.</p>
+              <p>In this project-scope every database is behind a <i>bastion</i>, and in order to reach all databases, we have to be able to safely access and traverse those environments concurrently. This makes our current orchestration tool Apache Airflow (MWAA) a not-so-attractive choice in the current setup.</b></p>
+              <p>A lesson I learned was not assuming that a tool I reliably used in the past would easily apply in the same way to another project.</p>
+            </details>
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">4</span>Improved Freshness Monitoring & Testing</summary>
+              <p>I currently use the built-in  <code>dbt source freshness</code>  monitoring within each <code>_sources.yml file</code> and a small variety of custom dbt macro tests (such as asserting uniqueness across a grain).</p>
+              <p>I want to thoughtfully improve upon all existing tests before accelerating the frequency of runs.</p>
+            </details>
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">3</span>Incremental dbt Models</summary>
+              <p>For a single tenant, the approximate scale is ~150,000 rows per month, all tables combined. Where each table is '&lt;tenant&gt;_&lt;materialized_view&gt;'. 
+                Our architecture as it stands is deliberately per-tenant tables, so the tenant count itself doesn’t multiply any single tables size. </p>
+              <p>Quick Approximate Math</p>
+              <p>For a single tenant with ~150,000 rows per month:</p>
+                <ul>
+                  <li>After 3 months, the largest single table would likely reach around 180,000 rows</li>
+                  <li>After 3 months, if one table were shared across <i>all tenants</i>, we could reach 2.7M rows (180,000 x 15) </li>
+                </ul>
+              <p>So when would it matter?</p>
+              <p>If later we wanted to share cross-tenant table instead of per-tenant, we’d be approaching the need for incremental models as a planned decision as opposed to something growth forces upon us. </p>
+            </details>
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">5</span>Increase Run Frequency</summary>
+              <p>The analytics apps the pipeline currently serves match the reporting need (monthly trends). </p>
+              <p>Once a roadmap to orchestration is better defined we can design a path to smaller batches per run and increase the frequency of runs to weekly/daily. </p>
+            </details>
+
+
+          </div>
+        </section>
+    </div>
+   </section>
+
+
+
+
+
+  <script>
+    // reveal on scroll
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+    },{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+    document.querySelectorAll('.fade-in,.slide-left,.slide-right').forEach(el=>observer.observe(el));
+
+    // header elevation
+    const header=document.querySelector('header');
+    addEventListener('scroll',()=>{
+      const y=window.pageYOffset||document.documentElement.scrollTop;
+      header.style.boxShadow = y>96?'0 2px 18px rgba(17,17,17,0.08)':'none';
+      header.style.background = y > 96? 'rgba(255,255,255,0.90)': 'rgba(255,255,255,0.75)'
+    });
+
+    // stagger timeline
+    const items=document.querySelectorAll('.t-item');
+    const tObs=new IntersectionObserver((ents)=>{
+      ents.forEach((entry,idx)=>{
+        if(entry.isIntersecting) setTimeout(()=>entry.target.classList.add('visible'), idx*120);
+      });
+    },{threshold:0.5});
+    items.forEach(i=>tObs.observe(i));
+  </script>
+</body>
+</html>
