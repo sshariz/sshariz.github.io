@@ -117,9 +117,9 @@ deliver ────────────────────────
 		   │       └───────┘
 		   ▼  
 		 deliver: governed analytics
-		   └─────────►┬──────┐     ┌─────────────────────────────────┐
-			          │  S3  │  +  │ Analytics Platform Applications │
-			          └──────┘     └─────────────────────────────────┘
+		   └─────────►┬──────┐     
+			          │  S3  │   
+			          └──────┘    
 ```
 
 
@@ -131,13 +131,16 @@ Modular Architecture
                    Configuration-Driven
                   Multi-Tenant Ingestion
                            │
-                           │
- extract ──────────────────┼────────────────────────┐
- (environment-agnostic)    │                        │
-                           │                  ┌──────────────┐
-                           └─────────────────►│ Multi-Tenant │
-                                              │ GraphQL APIs │
-                                              └──────────────┘
+                     ┌──────────────┐
+                     │ Multi-Tenant │
+                     │ GraphQL APIs │
+                     └──────────────┘
+                         SOURCE
+                   (application layer)
+ extract ──────────────────┼─────────────────────────────────
+ (environment-agnostic)    │                        
+                           │                  
+                        EXTRACT
                            ▼
  load ───────────────────────────────────────────────────────
  Windowed idempotent loading
@@ -146,6 +149,8 @@ Modular Architecture
                            │                  ┌────────────┐
                            └─────────────────►│  Postgres  │
                                               └────────────┘
+                      RAW LANDING
+                        STAGING
                            ▼
  transform ─────────────────────────────────────────────────
  Domain-oriented models
@@ -154,14 +159,17 @@ Modular Architecture
                            │                  ┌────────┐
                            └─────────────────►│  dbt   │
                                               └────────┘
+                        
+                         MARTS
                            ▼
  deliver ───────────────────────────────────────────────────
- Governed analytics
  Independent job execution
  (tenant failure isolation)
-                           └────────►┌──────┐     ┌──────────────────────────┐
-                                     │  S3  │  +  │ Analytics Platform Apps  │
-                                     └──────┘     └──────────────────────────┘
+                       ANALYTICS
+                           └────────►┌──────┐ 
+                                     │  S3  │  
+                                     └──────┘     
+                               
 
 
 ```

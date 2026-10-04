@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sara | Multi-Tenant Pipeline</title>
+  <title>Sara | Multi-Tenant ELT</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400&display=swap" rel="stylesheet">
   <style>
 /* ============== Design tokens (max 4 colors) ============== */
@@ -314,15 +314,15 @@ p{margin-bottom: 12px;}
   <section class="hero">
     <div class="container">
       <span class="project-tag">Data Engineer · Enterprise Software Platform </span>
-      <h1>Multi-Tenant ELT Framework - Product Analytics </h1>
+      <h1>Multi-Tenant ELT Ingestion Framework</h1>
 
       <br>
       <p style="text-align: left;" class="hero-subtitle measure">
-      Designed a production-grade ELT pipeline that centralized product telemetry from isolated, database-per-tenant GraphQL APIs into a governed analytics platform. The architecture was intentionally designed around several production constraints, including tenant isolation, restricted database access, and operational reliability. 
+      Designed a production-oriented ELT pipeline that centralized product telemetry from isolated, database-per-tenant GraphQL APIs into a governed analytics platform. The architecture was intentionally designed around several production constraints, including tenant isolation, restricted database access, and operational reliability. 
       
       I used a configuration-driven multi-tenant ingestion framework, windowed idempotent loading for safe reruns + historical backfills, and independent job execution that isolates tenant failures without interrupting other workloads. 
       
-      Built with an environment-agnostic architecture, the pipeline scales across 15 tenant environments and 75 monthly ingestion jobs while delivering governed datasets that enable historical and cross-environment product analytics. I introduced dbt to the company with this project.
+      Built with an environment-agnostic architecture, the pipeline scales across 15 tenant environments and 75 monthly ingestion jobs while delivering governed datasets that enable historical and cross-environment product analytics. I introduced dbt (dbt Core) to the company with this project.
       </p>
       <br>
       <p style="text-align: left;"><strong>Domain:</strong> Enterprise Software Platform</p>
@@ -477,6 +477,12 @@ Amazon S3
                 <p>A staging layer was important because there were known duplicates resulting from the MV grain, such as a user belonging to a group. I was able to maintain data quality by standardizing this dedupe in a <code>dbt macro</code> test. </p>
                 <p>I also separated the staging layer by domain of the product telemetry as opposed to by tenant, which would hinder the scalable design.</p>
               </details>
+              <details class="snippet fade-in">
+              <summary><span class="dropdown-num">6</span>OBSERVABILITY - Tenant Migration Checks</summary>
+                <p>At the time of build multi-tenancy model was varied, and several tenants were being migrated. This meant that if a tenant were to  </p>
+                
+                <p>ToDO: Include Code Snippet on expected migration and dns site host</p>
+              </details>
 
           </div>
       </section>
@@ -496,68 +502,48 @@ Amazon S3
           <div class="result-title">Environments Supported</div>
           <p class="result-desc">designed to scale for 50+</p>
         </div>
-        <div class="result-card fade-in">
+                <div class="result-card fade-in">
+          <div class="result-icon">75</div>
+          <div class="result-title">Pipeline Jobs</div>
+          <p class="result-desc">environment-agnostic</p>
+        </div>
+        <!-- <div class="result-card fade-in">
           <div class="result-icon" style="justify-content: center;">2.2M</div>
           <div class="result-title">Rows/Month</div>
           <p class="result-desc">across all tenants and tables</p>
-        </div>
-        <div class="result-card fade-in">
+        </div> -->
+        <!-- <div class="result-card fade-in">
           <div class="result-icon">375</div>
           <div class="result-title">API requests/month</div>
           <p class="result-desc">across the whole pipeline</p>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
 
-<!-- NEW Future Roadmap --> 
-   <section class="section process">
+
+     <section class="section process">
     <div class="container">
       
-      <h2 class="section-title fade-in">Improvements & Lessons Learned</h2>
+      <h2 class="section-title fade-in">Deferred Decisions</h2>
         <section class="architecture-section">
           <div class="center-wrapper">
             <br></br>
-                        <details class="snippet fade-in">
-              <summary><span class="dropdown-num">1</span>Reporting Database Backend - Cost Tradeoff</summary>
-                <p>A reporting database in our use case would be a dedicated cluster that absorbs heavy analytical queries from ETL orchestrators (Apache Airflow) & BI Tools, keeping them off production transactional systems.</p>
-                <p>The main challenge in bringing this improvement to development are resource contrainsts for a lean engineering team and the justification of introducing new costs. When proposing any major architectural changes I work alongside our Director of DevOps in drafting solutions.</p>
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">1</span>Reporting Database Backend</summary>
+                <p>A reporting database in our use case would be a dedicated cluster that absorbs heavy analytical queries, keeping them off production transactional systems. This would enable us to perform cross-environment analysis similar to the rest of the industry.</p>
+                <p>The main challenge in bringing this to development is the cost constraint. </p>
                 <p><h4>Core Benefits</h4></p>
                 <ul>
                   <li>Performance Isolation: Analytics queries and ETL run on a separate cluster, eliminating application slowdowns. </li>
                   <li>Read-Optimized Schema: can use denormalized or columnar layouts  (Parquet) tuned for aggregation rather than write output.</li>
                   <li>Data Integration: a single reporting layer consolidates data from multiple source systems before loading into a central system.</li>
                 </ul>
-                <p><h4>Architectural Options for say 30+ RDS Instances</h4></p>
-              
-                <ul>
-                  <li><h4>Native RDS Read Replicas (1:1):</h4> One read replica per production database. Airflow connects directly to each replica </li>
-                      <ul><li>Storage: each replica maintains a fully independent storage volume, doubling storage costs across every RDS</li></ul>
-                       <ul><li>Cost: costs scale linearly, each active instance is running at all times</li></ul>
-                  <li><h4>Amazon Aurora Cluster:</h4> Aurora replicas share the primary distributed storage layer, eliminating duplicated storage overhead</li>
-                  <ul><li>Storage: No additional storage cost; replicas read from the same shared volume as the primary writer.</li></ul>
-                   <ul><li>Cost: only the hourly instance cost of each replica applies.</li></ul>
-                  <li><h4>Centralized Data Warehouse / Lakehouse</h4></li>
-                  <ul><li>Stream data from all 30 production instances via AWS DMS into a single amazon Redshift Cluster or S3 Data Lake. Airflow orchestrates against one endpoint instead of thirty.</li></ul>
-                 
-                </ul>
-
             </details>
             <details class="snippet fade-in">
-              <summary><span class="dropdown-num">2</span>Orchestration Decision & Tool Transferability</summary>
-              <p>I work closely with our Director of DevOps (we have a small team) who has helped me introduce tools like Apache Airflow to the company by building the server-side infrastructure.</p>
-              <p>In this project-scope every database is behind a <i>bastion</i>, and in order to reach all databases, we have to be able to safely access and traverse those environments concurrently. This makes our current orchestration tool Apache Airflow (MWAA) a not-so-attractive choice in the current setup.</b></p>
-              <p>A lesson I learned was not assuming that a tool I reliably used in the past would easily apply in the same way to another project.</p>
-            </details>
-            <details class="snippet fade-in">
-              <summary><span class="dropdown-num">4</span>Improved Freshness Monitoring & Testing</summary>
-              <p>I currently use the built-in  <code>dbt source freshness</code>  monitoring within each <code>_sources.yml file</code> and a small variety of custom dbt macro tests (such as asserting uniqueness across a grain).</p>
-              <p>I want to thoughtfully improve upon all existing tests before accelerating the frequency of runs.</p>
-            </details>
-            <details class="snippet fade-in">
-              <summary><span class="dropdown-num">3</span>Incremental dbt Models</summary>
+              <summary><span class="dropdown-num">2</span>Incremental dbt Models</summary>
               <p>For a single tenant, the approximate scale is ~150,000 rows per month, all tables combined. Where each table is '&lt;tenant&gt;_&lt;materialized_view&gt;'. 
-                Our architecture as it stands is deliberately per-tenant tables, so the tenant count itself doesn’t multiply any single tables size. </p>
+                The pipelines architecture as it stands is deliberately per-tenant tables, so the tenant count itself doesn’t multiply any single tables size. </p>
               <p>Quick Approximate Math</p>
               <p>For a single tenant with ~150,000 rows per month:</p>
                 <ul>
@@ -568,18 +554,15 @@ Amazon S3
               <p>If later we wanted to share cross-tenant table instead of per-tenant, we’d be approaching the need for incremental models as a planned decision as opposed to something growth forces upon us. </p>
             </details>
             <details class="snippet fade-in">
-              <summary><span class="dropdown-num">5</span>Increase Run Frequency</summary>
-              <p>The analytics apps the pipeline currently serves match the reporting need (monthly trends). </p>
-              <p>Once a roadmap to orchestration is better defined we can design a path to smaller batches per run and increase the frequency of runs to weekly/daily. </p>
+              <summary><span class="dropdown-num">2</span>Orchestration Compatibility</summary>
+              <p>I work closely with our Director of DevOps (we have a small team) who has helped me introduce tools like Apache Airflow to the company by building the server-side infrastructure.</p>
+              <p>In this project-scope every database is behind a <i>bastion</i>, and in order to reach all databases, we have to be able to safely access and traverse those environments concurrently. This makes our current orchestration tool Apache Airflow (MWAA) a not-so-attractive choice in the current setup.</b></p>
+              <p>A lesson I learned was not assuming that a tool I reliably used in the past would easily apply in the same way to another project.</p>
             </details>
-
-
           </div>
         </section>
     </div>
    </section>
-
-
 
 
 
