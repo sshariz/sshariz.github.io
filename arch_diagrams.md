@@ -102,6 +102,12 @@ deliver ────────────────────────
 
 
 
+
+
+
+
+
+
           Modular Architecture
                │
                │
@@ -149,7 +155,7 @@ deliver ────────────────────────
                (environment-agnostic)    │                 ┌──────────────┐
                                          └───────────────► │ GraphQL APIs │   
                                                            └──────────────┘
-                                       INGEST           
+                                     INGESTION           
                                          ▼                  
                load ───────────────────────────────────────────────────────
                (windowed idempotent loading)

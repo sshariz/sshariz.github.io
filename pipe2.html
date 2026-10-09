@@ -423,6 +423,7 @@ Amazon S3
                 <span class="tech-item">PostgreSQL</span>
                 <span class="tech-item">dbt · dbt-core</span>
                 <span class="tech-item">Amazon S3</span>
+                <span class="tech-item">Apache Airflow</span>
               </div>
           </div>
         <br></br>
@@ -433,39 +434,36 @@ Amazon S3
             <details class="snippet fade-in" open>
               <summary><span class="dropdown-num">1</span> SCALABILITY - Configuration-Driven Multi-Tenant Ingestion</summary>
               <p>Given there are multiple isolated environments, and they each require independent ingestion, the entire extract module was designed to prepare for the scale of oncoming tenants. 10 environments of interest could turn into 100, and custom code for each would be difficult to maintain or debug. </p>
-              
               <img 
                 src="images/pipeline2-analytics/arch/a_1.png"
                 alt="pipeline-diagram"
                 class="arch-image"
                 loading="lazy" decoding="async">
-             
             <p>For this reason, the ingestion code was environment-agnostic, meaning it worked generically. Whenever a new env was needed, it was simply an entry to the configuration.</p>
             </details>
-
             <details class="snippet fade-in">
               <summary><span class="dropdown-num">2</span> MODULARITY - Independent Stage Execution</summary>
-              <p>Every stage of the pipeline can be executed independently. There were many moving parts and structures were expected to change.
-                A modular design choice prevented structural specific (source of data or final landing) changes from disrupting other processes. I wanted an easy way to adapt if need be.</p>
+              <p>Every stage of the pipeline can be executed independently. There were many moving parts and structures were expected to change.</p>
                <img 
                 src="images/pipeline2-analytics/arch/a_2.png"
                 alt="pipeline-diagram"
                 class="arch-image"
                 loading="lazy" decoding="async">
+              <p>                A modular design choice prevented structural specific (source of data or final landing) changes from disrupting other processes. I wanted an easy way to adapt if need be.</p>
             </details>
-
             <details class="snippet fade-in">
               <summary><span class="dropdown-num">3</span> RELIABILITY - Idempotent Window-Based Load</summary>
-              <p>If something were to go wrong and I needed to re-run, I wanted to prevent duplicating the existing data or losing historical continuity by unintended deletion (aka preventing reruns and backfills). 
-              This layer utilized idempotent window-based loading. Idempotency means repeated execution lands on the same final state. So running many times gives the same result as if you were to run once. Delete-then-reload is scoped to the fetched date window, tagged with a timestamp, not by full-table replace.</p>
+              <p>If something were to go wrong and I needed to re-run, I wanted to prevent duplicating the existing data or losing historical continuity by unintended deletion (aka preventing reruns and backfills). </p>
                 <img 
                 src="images/pipeline2-analytics/arch/a_3.png"
                 alt="pipeline-diagram"
                 class="arch-image"
                 loading="lazy" decoding="async">
+              <p>This layer utilized idempotent window-based loading. Meaning repeated execution lands on the same final state. So running many times gives the same result as if you were to run once. Delete-then-reload is scoped to the fetched date window, tagged with a timestamp, not by full-table replace.</p>
+
             </details>
             <details class="snippet fade-in">
-              <summary><span class="dropdown-num">4</span> OBSERVABILITY - Failure Isolation & Independent Jobs</summary>
+              <summary><span class="dropdown-num">4</span> RELIABILITY - Failure Isolation & Independent Jobs</summary>
               <p>My experience with APIs led me to understand that failures would happen.</p>
                 <img 
                 src="images/pipeline2-analytics/arch/a_4.png"
@@ -476,10 +474,10 @@ Amazon S3
                 I wanted to be able to isolate failures and not take down the entire pipeline if one were to occur.</p>
             </details>
             <details class="snippet fade-in">
-              <summary><span class="dropdown-num">5</span>RELIABILITY - dbt-Modeled Governed Analytics</summary>
+              <summary><span class="dropdown-num">5</span>QUALITY - dbt-Modeled Governed Analytics</summary>
                 <p>I introduced dbt-core to the company with this project. Previously we struggled with version-controlled querying. Given the scope of our analytics I wanted to standardize everything. </p>
                  <img 
-                src="images/pipeline2-analytics/arch/arch_5.png"
+                src="images/pipeline2-analytics/arch/a_5.png"
                 alt="pipeline-diagram"
                 class="arch-image"
                 loading="lazy" decoding="async">
@@ -496,13 +494,11 @@ Amazon S3
                   I produced a pre-emptive test that checked for both the expected stack and site host. A mismatch results in a warning log
               </p>
                   <img 
-                src="images/pipeline2-analytics/arch/arch_5.png"
+                src="images/pipeline2-analytics/arch/a_6.png"
                 alt="pipeline-diagram"
                 class="arch-image"
                 loading="lazy" decoding="async">
-
               </details>
-
           </div>
       </section>
 
@@ -540,19 +536,18 @@ Amazon S3
     </div>
   </section>
 
-
-     <section class="section process">
-    <div class="container">
-      
+    <section class="section process">
+    <div class="container">      
       <h2 class="section-title fade-in">Deferred Decisions</h2>
         <section class="architecture-section">
           <div class="center-wrapper">
             <br></br>
             <details class="snippet fade-in">
-              <summary><span class="dropdown-num">1</span>Reporting Database Backend</summary>
-                <p>A reporting database in our use case would be a dedicated cluster that absorbs heavy analytical queries, keeping them off production transactional systems. This would enable us to perform cross-environment analysis similar to the rest of the industry.</p>
-                <p>The main challenge in bringing this to development is the cost constraint. </p>
-                <p><h4>Core Benefits</h4></p>
+              <summary><span class="dropdown-num">1</span>Reporting Database (OLAP)</summary>
+                <p>A reporting database (OLAP) in our use case would be a dedicated backend that absorbs heavy analytical queries, keeping them off production transactional systems. This system is optimized for business insights and data analysis.</p>
+                <p>The main challenge in bringing this to development is the <strong>cost constraint</strong>.</p>
+
+                <p><strong>Core Benefits</strong></p>
                 <ul>
                   <li>Performance Isolation: Analytics queries and ETL run on a separate cluster, eliminating application slowdowns. </li>
                   <li>Read-Optimized Schema: can use denormalized or columnar layouts  (Parquet) tuned for aggregation rather than write output.</li>
@@ -573,10 +568,8 @@ Amazon S3
               <p>If later we wanted to share cross-tenant table instead of per-tenant, we’d be approaching the need for incremental models as a planned decision as opposed to something growth forces upon us. </p>
             </details>
             <details class="snippet fade-in">
-              <summary><span class="dropdown-num">2</span>Orchestration Compatibility</summary>
-              <p>I work closely with our Director of DevOps (we have a small team) who has helped me introduce tools like Apache Airflow to the company by building the server-side infrastructure.</p>
-              <p>In this project-scope every database is behind a <i>bastion</i>, and in order to reach all databases, we have to be able to safely access and traverse those environments concurrently. This makes our current orchestration tool Apache Airflow (MWAA) a not-so-attractive choice in the current setup.</b></p>
-              <p>A lesson I learned was not assuming that a tool I reliably used in the past would easily apply in the same way to another project.</p>
+              <summary><span class="dropdown-num">2</span>End-to-End Observability</summary>
+              <p>Standardize a simple run + audit record: tenant, extraction window, row counts, duration, status, error.</p>
             </details>
           </div>
         </section>
