@@ -98,71 +98,81 @@ deliver ────────────────────────
 ### Pipeline 2 (Analytics)
 
 ```graphql
-    Modular Architecture
-		   │
-		   │
-		 extract: configuration-driven, environment agnostic
-		   │       ┌───────────┐ 
-		   ├───────┤  GraphQL  │
-		   │       └───────────┘
-		   ▼              
-		  load: idempotent load, raw_schema 
-		   │       ┌────────────┐ 
-		   ├───────┤  Postgres  │ 
-		   │       └────────────┘
-		   ▼ 
-		transform: staging, marts
-		   │       ┌───────┐ 
-		   ├───────┤  dbt  │
-		   │       └───────┘
-		   ▼  
-		 deliver: governed analytics
-		   └─────────►┬──────┐     
-			      │  S3  │   
-			      └──────┘    
+
+
+                 Modular Architecture
+	              	   │
+	              	   │
+	              	 extract: configuration-driven, environment agnostic
+	              	   │       ┌───────────┐ 
+		                 ├───────┤  GraphQL  │
+		                 │       └───────────┘
+		                 ▼              
+		                load: idempotent load, raw_schema 
+		                 │       ┌────────────┐ 
+		                 ├───────┤  Postgres  │ 
+		                 │       └────────────┘
+		                 ▼ 
+		              transform: staging, marts
+		                 │       ┌───────┐ 
+		                 ├───────┤  dbt  │
+		                 │       └───────┘
+		                 ▼  
+		               deliver: governed analytics
+		                 └─────────►┬──────┐     
+			                    │  S3  │   
+			                    └──────┘    
+
+
 ```
 
 
 
 
 ```graphql
+        
 
-                        Modular 
-                  Multi-Tenant Ingestion  
 
-                     ORCHESTRATION         
-                ┌───────────────────────┐
-  ───────────── │ Apache Airflow / MWAA │ ───────────────────
-                └───────────────────────┘
+
+                        Multi-Tenant ELT Ingestion Framework
+
+                                   ORCHESTRATION         
+                              ┌───────────────────────┐
+                ───────────── │ Apache Airflow / MWAA │ ───────────────────
+                              └───────────────────────┘
                     
-                         SOURCE
- extract ──────────────────┼─────────────────────────────────
- (environment-agnostic)    │                  ┌──────────────┐
-                           └────────────────► │ GraphQL APIs │   
-                                              └──────────────┘
-                     EXTRACT + LOAD           
-                           ▼                  
- load ───────────────────────────────────────────────────────
- (windowed idempotent loading)
-                           │
-                           │                   ┌────────────┐
-                           └─────────────────► │  Postgres  │
-                                               └────────────┘
-                      RAW LANDING
-                        STAGING
-                           ▼
- transform ─────────────────────────────────────────────────
- (raw → staging → marts)   │
-                           │                   ┌────────┐
-                           └─────────────────► │  dbt   │                 
-                                               └────────┘        
-                         MARTS
-                           ▼
- deliver ───────────────────────────────────────────────────
- (tenant failure isolation)
-                       ANALYTICS               ┌──────┐ 
-                           └─────────────────► │  S3  │  
-                                               └──────┘ 
+                                       SOURCE
+               extract ──────────────────┼─────────────────────────────────
+               (environment-agnostic)    │                  ┌──────────────┐
+                                         └────────────────► │ GraphQL APIs │   
+                                                            └──────────────┘
+                                   EXTRACT + LOAD           
+                                         ▼                  
+               load ───────────────────────────────────────────────────────
+               (windowed idempotent loading)
+                                         │
+                                         │                   ┌────────────┐
+                                         └─────────────────► │  Postgres  │
+                                                             └────────────┘
+                                    RAW LANDING
+                                      STAGING
+                                         ▼
+               transform ─────────────────────────────────────────────────
+               (raw → staging → marts)   │
+                                         │                   ┌────────┐
+                                         └─────────────────► │  dbt   │                 
+                                                             └────────┘        
+                                        MARTS
+                                         ▼
+               deliver ───────────────────────────────────────────────────
+               (tenant failure isolation)
+                                     ANALYTICS               ┌──────┐ 
+                                         └─────────────────► │  S3  │  
+                                                             └──────┘ 
+
+
+
+
 ```
 
 
