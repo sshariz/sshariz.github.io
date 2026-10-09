@@ -129,55 +129,48 @@ deliver ────────────────────────
 Modular Architecture
 
                    Configuration-Driven
-                  Multi-Tenant Ingestion
-                           │────────────────── ORCHESTRATION
-                     ┌──────────────┐      Apache Airflow / MWAA
-                     │ Multi-Tenant │
-                     │ GraphQL APIs │   
-                     └──────────────┘
+                  Multi-Tenant Ingestion  
+
+                     ORCHESTRATION         
+                ┌───────────────────────┐
+  ───────────── │ Apache Airflow / MWAA │ ───────────────────
+                └───────────────────────┘
+                    
                          SOURCE
-                   (application layer)
  extract ──────────────────┼─────────────────────────────────
- (environment-agnostic)    │                        
-                           │                  
-                        EXTRACT
-                           ▼
+ (environment-agnostic)    │                  ┌──────────────┐
+                           └────────────────► │ Multi-Tenant │    
+                                              │ GraphQL APIs │ 
+                  EXTRACT + LOAD              └──────────────┘
+                           ▼                  
  load ───────────────────────────────────────────────────────
- Windowed idempotent loading
- (safe reruns & historical backfills)
+ (windowed idempotent loading)
                            │
-                           │                  ┌────────────┐
-                           └─────────────────►│  Postgres  │
-                                              └────────────┘
+                           │                   ┌────────────┐
+                           └─────────────────► │  Postgres  │
+                                               └────────────┘
                       RAW LANDING
                         STAGING
                            ▼
  transform ─────────────────────────────────────────────────
- Domain-oriented models
- (raw → staging → marts)
-                           │
-                           │                  ┌────────┐
-                           └─────────────────►│  dbt   │
-                                              └────────┘
-                        
+ (raw → staging → marts)   │
+                           │                   ┌────────┐
+                           └─────────────────► │  dbt   │                 
+                                               └────────┘        
                          MARTS
                            ▼
  deliver ───────────────────────────────────────────────────
- Independent job execution
  (tenant failure isolation)
-                       ANALYTICS
-                           ▼ 
-                        ┌──────┐ 
-                        │  S3  │  
-                        └──────┘     
+                       ANALYTICS               ┌──────┐ 
+                           └─────────────────► │  S3  │  
+                                               └──────┘ 
 
-                    
-              
-                  (scheduled execution)
-                               
+
 
 
 ```
+
+
 
 # Architecture - 1
 
