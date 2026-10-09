@@ -232,6 +232,25 @@ for env, mv in jobs:
 
 					raw   →  staging  →  marts 
 							       ▼  
-						 domain separation
+						  domain separation
 					(content, usage, sessions)
+```
+
+# Architecture - 6
+```graphql
+#  from the site DNS: <service><stack><aws-id>
+#       <service> is the service-gateway
+#       <stack> identifies which stack owns that tenant
+
+   ...
+   if stack != expected_stack:
+      return {
+         "env": env,
+         "status": "MISMATCH",
+         "site_host": site_host,
+         "expected_stack": expected_stack,
+         "actual_stack": stack,
+      }
+   ... 
+
 ```

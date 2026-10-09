@@ -315,7 +315,7 @@ p{margin-bottom: 12px;}
     <div class="container">
       <span class="project-tag">Data Engineer · Enterprise Software Platform </span>
       <h1>Multi-Tenant ELT Ingestion Framework</h1>
-
+      <h2>Custom Reusable Analytics Layer</h2>
       <br>
       <p style="text-align: left;" class="hero-subtitle measure">
       Designed a production-oriented ELT pipeline that centralized product telemetry from isolated, database-per-tenant GraphQL APIs into a governed analytics platform. The architecture was intentionally designed around several production constraints, including tenant isolation, restricted database access, and operational reliability. 
@@ -367,20 +367,30 @@ Amazon S3
         <div>
           <div class="measure">
             <p> 
-            Data was intentionally separated behind multiple isolated GraphQL API endpoints with predefined views. Each endpoint required independent ingestion and processing to preserve logical data separation. This prevented the ability to perform historical trend analysis and cross-environment comparisons necessary to deliver a range of analytics features within the product platforms analytics applications. Additionally, if we wanted to maintain principle-of-least-privilege (POLP) there had to be a vehicle providing internal teams with safe access to the data they needed.
+            We wanted to answer: <i>"What has happened across our product, customers, and environments, and what can we learn from it?“</i>
             </p>
             <br>
-            <div>
+          <details class="snippet fade-in" open>
+              <summary>1. No Analytics Infrastructure Existed</summary>
+                <p>The existing architecture consisted exclusively of an application layer serving real-time insights inside the product. No dedicated analytics infrastructure existed for historical analysis, cross-tenant aggregation, or trend discovery. </p>
+              </details>
+          <details class="snippet fade-in" open>
+              <summary>2. Cost Constraint</summary>
+              <p>Acquiring a Reporting Database (OLAP) was out of budget.</p>
+              </details>
+          <details class="snippet fade-in" >
+              <summary>3. Database-per-tenant architectural complexity</summary>
+                  <p>Customer data was intentionally separated behind multiple isolated GraphQL API endpoints with predefined views. Each endpoint required independent ingestion and processing to preserve logical data separation. This prevented the ability to perform historical trend analysis and cross-environment comparisons necessary to deliver a range of insights about our product and customers.</p>
+          
+              <div>
               <details class="snippet fade-in">
               <summary>Why were tenants isolated?</summary>
-                <p>The multi-tenancy framework utilizes datbase-per-tenant. Direct database access was intentionally prohibited for SOC compliance, to prevent tenant cross-contamination, and protect operational database performance.</p>
+                <p>The multi-tenancy framework utilizes datbase-per-tenant. Direct database access was intentionally prohibited for SOC2 compliance, to prevent tenant cross-contamination, and protect operational database performance.</p>
               </details>
               <details class="snippet fade-in">
               <summary>Why GraphQL instead of direct SQL?</summary>
-                <p>A GraphQL application layer provided precomputed analytics events via PostgreSQL materialized views (heartbeats, tab navigations, content views, etc.) which are refreshed at intervals ≤ 24hrs. Querying live tables introduce performance risk, security concerns, and inflexibility.</p>
-              </details>
-              <details class="snippet fade-in">
-              <summary>Why Materialized Views?</summary>
+                <p>A pre-existing GraphQL application layer was built to feed applications with provided precomputed analytics events from PostgreSQL materialized views (heartbeats, tab navigations, content views, etc.) refreshed at intervals ≤ 24hrs. </p>
+                <p>Querying live tables introduces performance risk, security concerns, and inflexibility.</p>
                 <p>Materialized Views solve this by providing:
                   <ul>
                     <li>performance isolation: queries run against pre-computed snapshot, not live data</li>
@@ -389,15 +399,14 @@ Amazon S3
                   </ul>    
                 </p>
               </details>
-
             </div>
+          </details>
 
-            <div class="highlight">
-              <strong>The Core Challenge:</strong> safely navigate complex tenant architecture while providing a myriad of product analytics
-            </div>
+         <div class="highlight">
+            <strong>The Core Challenge:</strong> provide a reusable analytics layer at no cost while navigating complex tenant architecture
           </div>
         </div>
-  
+      </div>  
     </div>
   </section>
 
@@ -479,9 +488,19 @@ Amazon S3
               </details>
               <details class="snippet fade-in">
               <summary><span class="dropdown-num">6</span>OBSERVABILITY - Tenant Migration Checks</summary>
-                <p>At the time of build multi-tenancy model was varied, and several tenants were being migrated. This meant that if a tenant were to  </p>
-                
-                <p>ToDO: Include Code Snippet on expected migration and dns site host</p>
+              <p>
+                  Tenants are frequently migrated. 
+                  If a tenant were move to a different backend stack, it would result in a job failure. 
+              </p>
+              <p>
+                  I produced a pre-emptive test that checked for both the expected stack and site host. A mismatch results in a warning log
+              </p>
+                  <img 
+                src="images/pipeline2-analytics/arch/arch_5.png"
+                alt="pipeline-diagram"
+                class="arch-image"
+                loading="lazy" decoding="async">
+
               </details>
 
           </div>
