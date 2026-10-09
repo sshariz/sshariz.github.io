@@ -99,36 +99,6 @@ deliver ────────────────────────
 
 ```graphql
 
-
-     
-	       
-	       
-	  
-	       
-		     
-		     
-		                 
-		                load: idempotent load, raw_schema 
-		                 │       ┌────────────┐ 
-		                 ├───────┤  Postgres  │ 
-		                 │       └────────────┘
-		                 ▼ 
-		              transform: staging, marts
-		                 │       ┌───────┐ 
-		                 ├───────┤  dbt  │
-		                 │       └───────┘
-		                 ▼  
-		               deliver: governed analytics
-		                 └─────────►┬──────┐     
-			                    │  S3  │   
-			                    └──────┘    
-
-
-```
-
-
-```graphql
-
    Modular Architecture
         │
         │
@@ -137,6 +107,20 @@ deliver ────────────────────────
         ├───────┤  GraphQL  │
         │       └───────────┘
         ▼  
+    load: idempotent load, raw_schema 
+        │       ┌────────────┐ 
+        ├───────┤  Postgres  │ 
+        │       └────────────┘
+        ▼  
+    transform: staging, marts
+       │       ┌───────┐ 
+       ├───────┤  dbt  │
+       │       └───────┘
+       ▼ 
+    deliver: governed analytics
+       └─────────►┬──────┐ 
+                  │  S3  │ 
+                  └──────┘      
 ```
 
 
@@ -156,35 +140,32 @@ deliver ────────────────────────
                     
                                        SOURCE
                extract ──────────────────┼─────────────────────────────────
-               (environment-agnostic)    │                  ┌──────────────┐
-                                         └────────────────► │ GraphQL APIs │   
-                                                            └──────────────┘
-                                   EXTRACT + LOAD           
+               (environment-agnostic)    │                 ┌──────────────┐
+                                         └───────────────► │ GraphQL APIs │   
+                                                           └──────────────┘
+                                       INGEST           
                                          ▼                  
                load ───────────────────────────────────────────────────────
                (windowed idempotent loading)
                                          │
-                                         │                   ┌────────────┐
-                                         └─────────────────► │  Postgres  │
-                                                             └────────────┘
+                                         │                  ┌────────────┐
+                                         └────────────────► │  Postgres  │
+                                                            └────────────┘
                                     RAW LANDING
                                       STAGING
                                          ▼
                transform ─────────────────────────────────────────────────
                (raw → staging → marts)   │
-                                         │                   ┌────────┐
-                                         └─────────────────► │  dbt   │                 
-                                                             └────────┘        
-                                        MARTS
+                                         │                  ┌────────┐
+                                         └────────────────► │  dbt   │                 
+                                                            └────────┘        
+                                       MARTS
                                          ▼
                deliver ───────────────────────────────────────────────────
                (tenant failure isolation)
-                                     ANALYTICS               ┌──────┐ 
-                                         └─────────────────► │  S3  │  
-                                                             └──────┘ 
-
-
-
+                                     ANALYTICS              ┌──────┐ 
+                                         └────────────────► │  S3  │  
+                                                            └──────┘ 
 
 ```
 
