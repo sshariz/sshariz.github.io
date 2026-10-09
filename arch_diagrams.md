@@ -118,8 +118,8 @@ deliver ────────────────────────
 		   ▼  
 		 deliver: governed analytics
 		   └─────────►┬──────┐     
-			          │  S3  │   
-			          └──────┘    
+			         │  S3  │   
+			         └──────┘    
 ```
 
 
@@ -166,9 +166,14 @@ Modular Architecture
  Independent job execution
  (tenant failure isolation)
                        ANALYTICS
-                           └────────►┌──────┐ 
-                                     │  S3  │  
-                                     └──────┘     
+                           ▼ 
+                        ┌──────┐ 
+                        │  S3  │  
+                        └──────┘     
+
+                    Apache Airflow / MWAA
+              ─────── ORCHESTRATION ───────
+                  (scheduled execution)
                                
 
 
