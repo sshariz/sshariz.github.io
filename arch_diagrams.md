@@ -126,9 +126,8 @@ deliver ────────────────────────
 
 
 ```graphql
-Modular Architecture
 
-                   Configuration-Driven
+                        Modular 
                   Multi-Tenant Ingestion  
 
                      ORCHESTRATION         
@@ -139,9 +138,9 @@ Modular Architecture
                          SOURCE
  extract ──────────────────┼─────────────────────────────────
  (environment-agnostic)    │                  ┌──────────────┐
-                           └────────────────► │ Multi-Tenant │    
-                                              │ GraphQL APIs │ 
-                  EXTRACT + LOAD              └──────────────┘
+                           └────────────────► │ GraphQL APIs │   
+                                              └──────────────┘
+                     EXTRACT + LOAD           
                            ▼                  
  load ───────────────────────────────────────────────────────
  (windowed idempotent loading)
@@ -164,10 +163,6 @@ Modular Architecture
                        ANALYTICS               ┌──────┐ 
                            └─────────────────► │  S3  │  
                                                └──────┘ 
-
-
-
-
 ```
 
 
