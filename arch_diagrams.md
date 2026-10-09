@@ -118,8 +118,8 @@ deliver ────────────────────────
 		   ▼  
 		 deliver: governed analytics
 		   └─────────►┬──────┐     
-			         │  S3  │   
-			         └──────┘    
+			      │  S3  │   
+			      └──────┘    
 ```
 
 
@@ -130,10 +130,10 @@ Modular Architecture
 
                    Configuration-Driven
                   Multi-Tenant Ingestion
-                           │
-                     ┌──────────────┐
+                           │────────────────── ORCHESTRATION
+                     ┌──────────────┐      Apache Airflow / MWAA
                      │ Multi-Tenant │
-                     │ GraphQL APIs │
+                     │ GraphQL APIs │   
                      └──────────────┘
                          SOURCE
                    (application layer)
@@ -171,8 +171,8 @@ Modular Architecture
                         │  S3  │  
                         └──────┘     
 
-                    Apache Airflow / MWAA
-              ─────── ORCHESTRATION ───────
+                    
+              
                   (scheduled execution)
                                
 
