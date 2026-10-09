@@ -100,13 +100,13 @@ deliver ────────────────────────
 ```graphql
 
 
-                 Modular Architecture
-	              	   │
-	              	   │
-	              	 extract: configuration-driven, environment agnostic
-	              	   │       ┌───────────┐ 
-		                 ├───────┤  GraphQL  │
-		                 │       └───────────┘
+                     Modular Architecture
+	                  	   │
+	              	       │
+	                     extract: configuration-driven, environment agnostic
+	              	       │       ┌───────────┐ 
+		                   ├───────┤  GraphQL  │
+		                   │       └───────────┘
 		                 ▼              
 		                load: idempotent load, raw_schema 
 		                 │       ┌────────────┐ 
