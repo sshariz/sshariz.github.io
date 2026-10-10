@@ -314,8 +314,8 @@ p{margin-bottom: 12px;}
   <section class="hero">
     <div class="container">
       <span class="project-tag">Data Engineer · Enterprise Software Platform </span>
-      <h1>Multi-Tenant ELT Ingestion Framework</h1>
-      <h2>Custom Reusable Analytics Layer</h2>
+      <h1>Reusable Analytics Infrastructure</h1>
+      <h2>Multi-Tenant Application-to-Analytics Data Platform</h2>
       <br>
       <p style="text-align: left;" class="hero-subtitle measure">
       Designed a production-oriented ELT pipeline that centralized product telemetry from isolated, database-per-tenant GraphQL APIs into a governed analytics platform. The architecture was intentionally designed around several production constraints, including tenant isolation, restricted database access, and operational reliability. 
@@ -329,7 +329,7 @@ p{margin-bottom: 12px;}
       <p style="text-align: left;"><strong>Data:</strong> Product Analytics Telemetry </p>
         <div>
           <img 
-            src="images/pipeline2-analytics/f_pipeline_2.png"
+            src="images/pipeline2-analytics/a_pipe2_page.png"
             alt="pipeline-diagram"
             class="sol-image"
             loading="lazy" decoding="async">
@@ -385,13 +385,14 @@ Amazon S3
               <div>
               <details class="snippet fade-in">
               <summary>Why were tenants isolated?</summary>
-                <p>The multi-tenancy framework utilizes datbase-per-tenant. Direct database access was intentionally prohibited for SOC2 compliance, to prevent tenant cross-contamination, and protect operational database performance.</p>
+                <p>Using database-per-tenant framework for SOC2 compliance and GDPR. </p>
               </details>
               <details class="snippet fade-in">
               <summary>Why GraphQL instead of direct SQL?</summary>
+                <p>Direct database access was intentionally prohibited for SOC2 compliance, to prevent tenant cross-contamination, and protect operational database performance.</p>
                 <p>A pre-existing GraphQL application layer was built to feed applications with provided precomputed analytics events from PostgreSQL materialized views (heartbeats, tab navigations, content views, etc.) refreshed at intervals ≤ 24hrs. </p>
-                <p>Querying live tables introduces performance risk, security concerns, and inflexibility.</p>
-                <p>Materialized Views solve this by providing:
+                <p>Querying live tables introduces performance risk, security concerns, and inflexibility. Materialized Views solve this by providing:</p>
+                <p>
                   <ul>
                     <li>performance isolation: queries run against pre-computed snapshot, not live data</li>
                     <li>security: no arbitrary SQL execution; only predefined views are exposed</li>
@@ -474,7 +475,7 @@ Amazon S3
                 I wanted to be able to isolate failures and not take down the entire pipeline if one were to occur.</p>
             </details>
             <details class="snippet fade-in">
-              <summary><span class="dropdown-num">5</span>QUALITY - dbt-Modeled Governed Analytics</summary>
+              <summary><span class="dropdown-num">5</span>QUALITY - dbt Modeled Analytics</summary>
                 <p>I introduced dbt-core to the company with this project. Previously we struggled with version-controlled querying. Given the scope of our analytics I wanted to standardize everything. </p>
                  <img 
                 src="images/pipeline2-analytics/arch/a_5.png"
@@ -568,7 +569,7 @@ Amazon S3
               <p>If later we wanted to share cross-tenant table instead of per-tenant, we’d be approaching the need for incremental models as a planned decision as opposed to something growth forces upon us. </p>
             </details>
             <details class="snippet fade-in">
-              <summary><span class="dropdown-num">2</span>End-to-End Observability</summary>
+              <summary><span class="dropdown-num">3</span>End-to-End Observability</summary>
               <p>Standardize a simple run + audit record: tenant, extraction window, row counts, duration, status, error.</p>
             </details>
           </div>
