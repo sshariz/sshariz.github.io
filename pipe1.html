@@ -50,7 +50,11 @@ p{margin:0 0 var(--space-md); color:var(--muted); font-size:1rem}
   padding:6px 12px; border-radius:999px; font-weight:200}
 .hero-subtitle{font-size:1rem; color:var(--muted);
   margin-top:20px; max-width:115ch; text-align:center; margin-left:auto; margin-right:auto;}
-  .image{display:block; width:100%; height:auto; border-radius:var(--radius)}
+  .hero-subtitle strong {
+  font-weight: 450; /* Lowers the heavy 700 bold down to a cleaner medium weight */
+}
+.image{display:block; width:100%; height:auto; border-radius:var(--radius)}
+
 /* ===== Sections ===== */
 .section{padding:var(--section-pad) 0}
 .section-title{text-align:center; margin-bottom:var(--space-md)}
@@ -330,12 +334,30 @@ p{margin-bottom: 12px;}
       <h1>Entity Resolution Pipeline </h1>
       <br>
       <p class="hero-subtitle measure" style="text-align: left;">
-       Built an automated entity-resolution system + batch data pipeline that automated a previously manual process for reconciling millions of software-usage records across 3 data sources. The pipeline leverages Airflow/MWAA for orchestration, DuckDB/Python for rule-based entity resolution, and S3/Parquet for low-cost analytical storage. This solution eliminated 26 hours of manual work each month without introducing any additional infrastructure costs. The design prioritizes correctness over coverage by quarantining unresolved records rather than risking incorrect organization assignments.
+       For more than five years, this process was <strong>entirely manual</strong>. Data from various sources was visually scanned and aggregated with Excel file dumps to produce usage figures. 
+   
+      This project <strong>completely automated that monthly workflow</strong> with a batch-processed data pipeline that <strong>programmatically standardized entity resolution and data governance</strong>. 
+      
+      The design prioritizes <strong>correctness over coverage</strong> by quarantining unresolved records rather than risking incorrect attributions.  
+  
+      The architecture was <strong>deliberately cost-optimized</strong>, leveraging both our existing stack and <strong>introducing new data infrastructure</strong> that was completely free and open-source.
       </p>
       <br>
       <p style="text-align: left;"><strong>Domain:</strong> Enterprise Software Platform</p>
       <p style="text-align: left;"><strong>Data:</strong> Software License Usage</p>
       <br>
+          <div class="tech-stack">
+            <div class="tech-title">Project Stack</div>
+              <div class="tech-list">
+                <span class="tech-item">Python</span>
+                <span class="tech-item">SQL</span>
+                <span class="tech-item">PostgreSQL</span>
+                <span class="tech-item">DuckDB</span>
+                <span class="tech-item">Apache Airflow</span>
+                <span class="tech-item">AWS · S3 · MWAA </span>
+                <span class="tech-item">Parquet</span>
+              </div>
+          </div>
         <div>
           <img 
             src="images/pipeline1-entity/pipe_1.png"
@@ -393,7 +415,7 @@ p{margin-bottom: 12px;}
   <section class="section solution">
     <div class="container">
       <h2 class="section-title fade-in">The Solution</h2>
-          <div class="tech-stack">
+          <!-- <div class="tech-stack">
             <div class="tech-title">Core Tech Stack</div>
               <div class="tech-list">
                 <span class="tech-item">Python</span>
@@ -404,7 +426,7 @@ p{margin-bottom: 12px;}
                 <span class="tech-item">Amazon S3</span>
                 <span class="tech-item">Parquet</span>
               </div>
-          </div>
+          </div> -->
         <br></br>
         <!-- Unique wrapping section container added here -->
         <section class="architecture-section">
