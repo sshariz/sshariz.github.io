@@ -51,7 +51,7 @@ p{margin:0 0 var(--space-md); color:var(--muted); font-size:1rem}
 .hero-subtitle{font-size:1rem; color:var(--muted);
   margin-top:20px; max-width:115ch; text-align:center; margin-left:auto; margin-right:auto;}
   .hero-subtitle strong {
-  font-weight: 450; /* Lowers the heavy 700 bold down to a cleaner medium weight */
+  font-weight: 400; /* Lowers the heavy 700 bold down to a cleaner medium weight */
 }
 .image{display:block; width:100%; height:auto; border-radius:var(--radius)}
 
@@ -332,10 +332,12 @@ p{margin-bottom: 12px;}
     <div class="container">
       <span class="project-tag">Data Engineer · Enterprise Software Platform </span>
       <h1>Entity Resolution Pipeline </h1>
+      <h2>Automation · foundational data governance </h2>
       <br>
       <p class="hero-subtitle measure" style="text-align: left;">
        For more than five years, this process was <strong>entirely manual</strong>. Data from various sources was visually scanned and aggregated with Excel file dumps to produce usage figures. 
-   
+      </p>
+       <p class="hero-subtitle measure" style="text-align: left;">
       This project <strong>completely automated that monthly workflow</strong> with a batch-processed data pipeline that <strong>programmatically standardized entity resolution and data governance</strong>. 
       
       The design prioritizes <strong>correctness over coverage</strong> by quarantining unresolved records rather than risking incorrect attributions.  
@@ -547,42 +549,35 @@ p{margin-bottom: 12px;}
   </section>
 
 
-  <!-- Future Roadmap -->
-  <section class="section process" id="process">
-    <div class="container">
+  <section class="section process">
+    <div class="container">      
       <h2 class="section-title fade-in">Future Roadmap & Lessons Learned</h2>
-
-      <div style="display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;">
-
-        <!-- Timeline on the left -->
-        <div class="timeline" style="flex:1;">
-          <div class="t-item fade-in">
-            <div class="t-num">1</div>
-            <div class="t-card">
-              <h3>Isolate Compute with AWS Fargate Containers</h3>
+        <section class="architecture-section">
+          <div class="center-wrapper">
+            <br></br>
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">1</span>Isolate Compute with AWS Fargate Containers</summary>
               <p>This shifts DuckDB data processing off the MWAA workers entirely & allows Airflow to remain purely as an orchestration tool, which is its purpose.
-               Until decoupling is worth the added complexity, I'm monitoring MWAA for sustained pressure (memory use during runs & runtime growth).</p>
+                 I'm monitor MWAA with DevOps for sustained pressure (memory use during runs & runtime growth) until decoupling is worth the added complexity.</p>
+                    
               <p><u>Lesson Learned:</u> never running into an out-of-memory crash doesnt equate to being prepared for the scenario where you do. Always have a clear separation of transformation & orchestration. </p>
-            </div>
-          </div>
-          <div class="t-item fade-in">
-            <div class="t-num">2</div>
-            <div class="t-card">
-              <h3>Data Quality at the Source </h3>
-              <p>It’s very difficult to constantly chase after messy data when you have no authority over the source systems. .</p>
-              <p><u>Lesson Learned:</u> if I could start this all over again, I’d push for more regulation of data entry within source-systems prior to any development. </p>
-            </div>
-          </div>
-          <div class="t-item fade-in">
-            <div class="t-num">3</div>
-            <div class="t-card">
-              <h3>Adopt dbt for Quality Testing</h3>
+            </details>
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">2</span>Garbage In Garbage Out Dilemma </summary>
+              <p>It’s very difficult to chase after messy data when you have no authority over it's source systems. 
+                That was the case here, and it was expected given the legacy process was manual for years.</p>
+            
+              <p><u>Lesson Learned:</u> if I could start this all over again, I’d push for more standardization of data entry within source-systems prior to any development.</p>
+            </details>
+            <details class="snippet fade-in">
+              <summary><span class="dropdown-num">3</span>Adopt dbt for Quality Testing</summary>
               <p> Id like to move transformations into models I can automatically test on uniqueness, nullability, reconciliation, and entity-resolution outcomes. </p>
-              <p><u>Lesson Learned:</u> custom logging can get a bit messy. Delegating to a tool like dbt allows for version control and cleaner code management.</p>
-            </div>
+              <p><u>Lesson Learned:</u> custom logging can get a bit complicated.</p>
+            </details>
           </div>
-        </div>
-         </section>
+        </section>
+    </div>
+   </section>
 
 
 

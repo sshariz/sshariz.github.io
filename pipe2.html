@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sara | Multi-Tenant ELT</title>
+  <title>Sara | Analytics Layer</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400&display=swap" rel="stylesheet">
   <style>
 /* ============== Design tokens (max 4 colors) ============== */
@@ -49,6 +49,9 @@ p{margin:0 0 var(--space-md); color:var(--muted); font-size:1rem}
 .hero-subtitle{font-size:1rem; color:var(--muted);
   margin-top:20px; max-width:115ch; text-align:center; margin-left:auto; margin-right:auto;}
   .image{display:block; width:100%; height:auto; border-radius:var(--radius)}
+.hero-subtitle strong {
+  font-weight: 400; /* Lowers the heavy 700 bold down to a cleaner medium weight */
+}
 /* ===== Sections ===== */
 .section{padding:var(--section-pad) 0}
 .section-title{text-align:center; margin-bottom:var(--space-md)}
@@ -315,18 +318,31 @@ p{margin-bottom: 12px;}
     <div class="container">
       <span class="project-tag">Data Engineer · Enterprise Software Platform </span>
       <h1>Foundational Analytics Infrastructure</h1>
-      <h2>Multi-Tenant Application-to-Analytics Data Platform</h2>
+      <h2>Application-to-Analytics Data Platform · Cross-Tenant </h2>
       <br>
       <p style="text-align: left;" class="hero-subtitle measure">
-      Designed a production-oriented ELT pipeline that centralized product telemetry from isolated, database-per-tenant GraphQL APIs into a governed analytics platform. The architecture was intentionally designed around several production constraints, including tenant isolation, restricted database access, and operational reliability. 
-      
-      I used a configuration-driven multi-tenant ingestion framework, windowed idempotent loading for safe reruns + historical backfills, and independent job execution that isolates tenant failures without interrupting other workloads. 
-      
-      Built with an environment-agnostic architecture, the pipeline scales across 15 tenant environments and 75 monthly ingestion jobs while delivering governed datasets that enable historical and cross-environment product analytics. I introduced dbt (dbt Core) to the company with this project.
+        Each customers data lived in their own <strong>logically separated databases with strictly controlled access</strong>. The only existing infrastructure was <strong>application layer</strong> designed to deliver real-time insights to customers <strong>individually</strong>. The company wanted to answer: 
+      <p style="text-align: center;" class="hero-subtitle measure"> <i>"What has happened across our product, customers, and environments, and what can we learn from it?“</i></p>
+      </p>
+        <p style="text-align: left;" class="hero-subtitle measure">
+      This project delivered <strong>foundational</strong> analytics infrastructure that <strong>enabled both historical trends and cross-tenant insights</strong>. 
+      It was deliberately designed to scale, with configuration-driven ingestion and failure isolation across the entire customer base. 
       </p>
       <br>
       <p style="text-align: left;"><strong>Domain:</strong> Enterprise Software Platform</p>
-      <p style="text-align: left;"><strong>Data:</strong> Product Analytics Telemetry </p>
+      <p style="text-align: left;"><strong>Data:</strong> Product Usage Analytics </p>
+          <div class="tech-stack">
+            <div class="tech-title">Core Tech Stack</div>
+              <div class="tech-list">
+                <span class="tech-item">Python</span>
+                <span class="tech-item">SQL</span>
+                <span class="tech-item">GraphQL</span>
+                <span class="tech-item">PostgreSQL</span>
+                <span class="tech-item">dbt · dbt-core</span>
+                <span class="tech-item">Amazon S3</span>
+                <span class="tech-item">Apache Airflow</span>
+              </div>
+          </div>
         <div>
           <img 
             src="images/pipeline2-analytics/a_pipe2_page.png"
@@ -372,7 +388,7 @@ Amazon S3
             <br>
           <details class="snippet fade-in" open>
               <summary>1. No Existing OLAP / Analytics Infrastructure</summary>
-                <p>The existing architecture consisted exclusively of an application layer serving real-time insights inside the product. No dedicated analytics infrastructure existed for historical analysis, cross-tenant aggregation, or trend discovery. </p>
+                <p>The existing infrastructure consisted exclusively of an application layer serving real-time insights inside the product. No dedicated analytics infrastructure existed for historical analysis, cross-tenant aggregation, or trend discovery. </p>
               </details>
           <details class="snippet fade-in" open>
               <summary>2. Cost Constraint</summary>
@@ -404,7 +420,7 @@ Amazon S3
           </details>
 
          <div class="highlight">
-            <strong>The Core Challenge:</strong> provide a reusable analytics layer at no cost while navigating complex tenant architecture
+            <strong>The Core Challenge:</strong> architect and build a foundational analytics layer at no additional cost while navigating complex tenant architecture and security constraints
           </div>
         </div>
       </div>  
@@ -414,8 +430,8 @@ Amazon S3
   <!-- Solution -->
   <section class="section solution">
     <div class="container">
-      <h2 class="section-title fade-in">The Solution - Architectural Decisions</h2>
-          <div class="tech-stack">
+      <h2 class="section-title fade-in">Architecture Solution</h2>
+          <!-- <div class="tech-stack">
             <div class="tech-title">Core Tech Stack</div>
               <div class="tech-list">
                 <span class="tech-item">Python</span>
@@ -426,7 +442,7 @@ Amazon S3
                 <span class="tech-item">Amazon S3</span>
                 <span class="tech-item">Apache Airflow</span>
               </div>
-          </div>
+          </div> -->
         <br></br>
         <!-- Unique wrapping section container added here -->
         <section class="architecture-section">
@@ -518,21 +534,21 @@ Amazon S3
           <div class="result-title">Environments Supported</div>
           <p class="result-desc">designed to scale</p>
         </div>
-        <!-- <div class="result-card fade-in">
-          <div class="result-icon">75</div>
-          <div class="result-title">Pipeline Jobs</div>
-          <p class="result-desc">environment-agnostic</p>
-        </div> -->
-         <div class="result-card fade-in">
-          <div class="result-icon">$18K</div>
-          <div class="result-title">Costs Avoided per Year</div>
-          <p class="result-desc">projections for OLAP infrastructure</p>
-        </div>
         <div class="result-card fade-in">
           <div class="result-icon">SOC2</div>
           <div class="result-title">Compliant</div>
           <p class="result-desc">logical data separation</p>
         </div>
+         <div class="result-card fade-in">
+          <div class="result-icon">$18K</div>
+          <div class="result-title">Avoided per Year</div>
+          <p class="result-desc">projections for OLAP infrastructure</p>
+        </div>
+             <!-- <div class="result-card fade-in">
+          <div class="result-icon">75</div>
+          <div class="result-title">Pipeline Jobs</div>
+          <p class="result-desc">environment-agnostic</p>
+        </div> -->
         <!-- <div class="result-card fade-in">
           <div class="result-icon" style="justify-content: center;">2.2M</div>
           <div class="result-title">Rows/Month</div>
