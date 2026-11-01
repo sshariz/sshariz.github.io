@@ -317,8 +317,8 @@ p{margin-bottom: 12px;}
   <section class="hero">
     <div class="container">
       <span class="project-tag">Data Engineer · Enterprise Software Platform </span>
-      <h1>Foundational Analytics Infrastructure</h1>
-      <h2>Application-to-Analytics Data Platform · Cross-Tenant </h2>
+      <h1>Application-to-Analytics Data Platform</h1>
+      <h2>Foundational Analytics Infrastructure · Cross-Tenant · COST-OPTIMIZED </h2>
       <br>
       <p style="text-align: left;" class="hero-subtitle measure">
         Each customers data lived in their own <strong>logically separated databases with strictly controlled access</strong>. The only existing infrastructure was <strong>application layer</strong> designed to deliver real-time insights to customers <strong>individually</strong>. The company wanted to answer: 
@@ -583,7 +583,7 @@ Amazon S3
             </details>
             <details class="snippet fade-in">
               <summary><span class="dropdown-num">2</span>Incremental dbt Models</summary>
-              <p>For a single tenant, the approximate scale is ~150,000 rows per month, all tables combined. Where each table is '&lt;tenant&gt;_&lt;materialized_view&gt;'. 
+              <p>For a single tenant, let's theorize the approximate scale were ~150,000 rows per month, all tables combined. Let's also assume there are 15 tenants, where each table is '&lt;tenant&gt;_&lt;materialized_view&gt;'. 
                 The pipelines architecture as it stands is deliberately per-tenant tables, so the tenant count itself doesn’t multiply any single tables size. </p>
               <p>Quick Approximate Math</p>
               <p>For a single tenant with ~150,000 rows per month:</p>
