@@ -102,18 +102,17 @@ deliver ────────────────────────
 
                         Multi-Tenant ELT Ingestion Framework
 
-            ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-            │          │   │          │   │          │   │          │   │          │
-            │ GraphQL  │──►│  Python  │──►│ Postgres │──►│   dbt    │──►│  AWS S3  │
-            │   API    │   │ by tenant│   │ raw layer│   │  models  │   │  marts   │
-            │          │   │          │   │          │   │          │   │          │
-            └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘
+            ┌──────────┐   ┌────────────┐   ┌────────────┐   ┌──────────┐   ┌──────────┐
+            │          │   │            │   │            │   │          │   │          │
+            │ GraphQL  │──►│ Python     │──►│ Postgres   │──►│   dbt    │──►│  AWS S3  │
+            │   API    │   │ per tenant │   │  raw layer │   │  models  │   │  marts   │
+            │          │   │            │   │            │   │          │   │          │
+            └──────────┘   └────────────┘   └────────────┘   └──────────┘   └──────────┘
 
             ┌──────────────────────────────────────────────────────────────────────┐
             │                     Apache Airflow orchestration                     │
             └──────────────────────────────────────────────────────────────────────┘
-
-                     Config-driven  ·  Idempotent  ·  Failure-isolated
+                      Config-driven  ·  Idempotent  ·  Failure-isolated
 
 
 
