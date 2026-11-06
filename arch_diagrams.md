@@ -99,15 +99,6 @@ deliver ────────────────────────
 
 ```graphql
 
-
-
-
-
-
-
-
-
-
           Modular Architecture
                │
                │
@@ -141,44 +132,48 @@ deliver ────────────────────────
 ```graphql
         
 
-
-
-                        Multi-Tenant ELT Ingestion Framework
-
-                                   ORCHESTRATION         
-                              ┌───────────────────────┐
-                ───────────── │ Apache Airflow / MWAA │ ───────────────────
-                              └───────────────────────┘
                     
-                                       SOURCE
-               extract ──────────────────┼─────────────────────────────────
-               (environment-agnostic)    │                 ┌──────────────┐
-                                         └───────────────► │ GraphQL APIs │   
-                                                           └──────────────┘
-                                     INGESTION           
-                                         ▼                  
-               load ───────────────────────────────────────────────────────
-               (windowed idempotent loading)
-                                         │
-                                         │                  ┌────────────┐
-                                         └────────────────► │  Postgres  │
-                                                            └────────────┘
-                                    RAW LANDING
-                                      STAGING
-                                         ▼
-               transform ─────────────────────────────────────────────────
-               (raw → staging → marts)   │
-                                         │                  ┌────────┐
-                                         └────────────────► │  dbt   │                 
-                                                            └────────┘        
-                                       MARTS
-                                         ▼
-               deliver ───────────────────────────────────────────────────
-               (tenant failure isolation)
-                                     ANALYTICS              ┌──────┐ 
-                                         └────────────────► │  S3  │  
-                                                            └──────┘ 
+      Application-to-Analytics Data Platform ·  Multi-Tenant ELT Ingestion Framework
 
+                                       ORCHESTRATION
+                                 ┌───────────────────────┐
+                  ────────────── │ Apache Airflow / MWAA │ ──────────────
+                                 └───────────────────────┘
+
+   SOURCE (existing)
+   ┌────────────────────┐          ┌────────────────────┐
+   │  Tenant Postgres   │ ───────► │     GraphQL API    │
+   │  DB per tenant     │          │  app-facing layer  │
+   │  restricted        │          └──────────┬─────────┘
+   └────────────────────┘                     │
+ ═════════════════ MY PIPELINE BEGINS HERE ═══╪══════════════════════════
+                                              │
+                                              ▼
+                            ┌─────────────────────────────────┐
+   EXTRACT + LOAD           │   Python · one job per tenant   │
+   Config-driven tenants    │ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ │
+   Idempotent windows       │ │ T-A │ │ T-B │ │ ... │ │ T-N │ │
+   Isolated failures        │ └─────┘ └─────┘ └─────┘ └─────┘ │
+                            │   windowed, idempotent loads    │
+                            └────────────────┬────────────────┘
+                                             │
+                                             ▼
+                            ┌─────────────────────────────────┐
+   RAW LANDING              │       Postgres raw layer        │
+   Migration checks         │          cross-tenant           │
+                            └────────────────┬────────────────┘
+                                             │
+                                             ▼
+                            ┌─────────────────────────────────┐
+   TRANSFORM                │            dbt + SQL            │
+   dbt-modeled analytics    │       staging  ──►  marts       │
+   Testing                  └────────────────┬────────────────┘
+   Version Control                           │
+                                             ▼
+                            ┌─────────────────────────────────┐
+   DELIVER                  │             AWS S3              │
+   No warehouse needed      │      analytics-ready marts      │
+                            └─────────────────────────────────┘
 
 
 ```
