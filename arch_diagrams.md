@@ -99,29 +99,20 @@ deliver ────────────────────────
 
 ```graphql
 
-          Modular Architecture
-               │
-               │
-            extract: configuration-driven, environment agnostic
-                │      ┌───────────┐ 
-                ├──────┤  GraphQL  │
-                │      └───────────┘
-                ▼  
-            load: idempotent load, raw_schema 
-                │      ┌────────────┐ 
-                ├──────┤  Postgres  │ 
-                │      └────────────┘
-                ▼  
-            transform: staging, marts
-               │       ┌───────┐ 
-               ├───────┤  dbt  │
-               │       └───────┘
-               ▼ 
-            deliver: governed analytics
-               └───────►┬──────┐ 
-                        │  S3  │ 
-                        └──────┘      
+                Multi-Tenant ELT Ingestion Framework
+                
+┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
+│          │   │          │   │          │   │          │   │          │
+│ GraphQL  │──►│  Python  │──►│ Postgres │──►│   dbt    │──►│  AWS S3  │
+│   API    │   │ by tenant│   │ raw layer│   │  models  │   │  marts   │
+│          │   │          │   │          │   │          │   │          │
+└──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘
 
+┌──────────────────────────────────────────────────────────────────────┐
+│                     Apache Airflow orchestration                     │
+└──────────────────────────────────────────────────────────────────────┘
+
+           Config-driven  ·  Idempotent  ·  Failure-isolated
 
 
 ```
